@@ -70,6 +70,13 @@ export function initHero3D() {
   resize();
   window.addEventListener("resize", resize);
 
+  // Mouse: parallax tilt on the rig + rim light follows the pointer
+  const mouse = { x: 0, y: 0 };
+  window.addEventListener("pointermove", (e) => {
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = (e.clientY / window.innerHeight) * 2 - 1;
+  });
+
   // Scroll scrub: assembly progress 0→1 across the hero's 260vh
   const progress = { t: 0 };
   gsap.to(progress, {
@@ -83,7 +90,10 @@ export function initHero3D() {
     const el = clock.getElapsedTime();
     const t = progress.t;
 
-    rig.rotation.y = el * 0.15 + t * Math.PI * 2;
+    rig.rotation.y = el * 0.15 + t * Math.PI * 2 + mouse.x * 0.35;
+    rig.rotation.x += (mouse.y * 0.22 - rig.rotation.x) * 0.06;
+    rim.position.x += (mouse.x * 6 - rim.position.x) * 0.05;
+    rim.position.y += (-mouse.y * 4 - rim.position.y) * 0.05;
     core.rotation.x = t * Math.PI * 0.8;
     core.scale.setScalar(0.85 + t * 0.35);
 

@@ -3,6 +3,8 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { initHero3D } from "./hero3d";
+import { initStageFX } from "./stage3d";
+import { attachCoverFX } from "./projectfx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -130,7 +132,7 @@ function initBrandSwap() {
   const brand = document.querySelector<HTMLElement>(".sigil-brand");
   if (!brand) return;
   const dark = getComputedStyle(document.documentElement).getPropertyValue("--color-ink").trim();
-  const sections = Array.from(document.querySelectorAll<HTMLElement>(".section-dark, .cta-banner"));
+  const sections = Array.from(document.querySelectorAll<HTMLElement>(".section-dark, .cta-banner, .feature-stage"));
   let ticking = false;
   function evaluate() {
     const r = brand!.getBoundingClientRect();
@@ -208,29 +210,24 @@ const STAGE_STEPS = [
     title: "Turn a workflow into an AI engine",
     text: "We build agents and pipelines around your real operations. Describe the process once — then watch it run itself. Automate the grind, keep the judgment calls.",
     chips: ["OPS COPILOT", "SUPPORT AGENT", "DATA PIPELINE"],
-    // 8-point polygons with matching vertex counts so clip-path tweens smoothly
-    shape: "polygon(50% 0%, 85% 12%, 100% 50%, 85% 88%, 50% 100%, 15% 88%, 0% 50%, 15% 12%)",
   },
   {
     name: "custom-software",
     title: "Unlimited product, instantly scoped",
     text: "Great software without hiring and firefighting a dev org — or full control if you want it. Web apps, platforms, internal tools: clean architecture, yours to keep.",
     chips: ["WEB APPS", "PLATFORMS", "INTERNAL TOOLS"],
-    shape: "polygon(25% 6%, 75% 6%, 94% 25%, 94% 75%, 75% 94%, 25% 94%, 6% 75%, 6% 25%)",
   },
   {
     name: "product-design",
     title: "Design that sells before it ships",
     text: "Interfaces your customers actually enjoy — researched, prototyped, and tested. We design the journey first, so engineering builds the right thing once.",
     chips: ["RESEARCH", "UX / UI", "MOTION"],
-    shape: "polygon(50% 2%, 68% 32%, 98% 50%, 68% 68%, 50% 98%, 32% 68%, 2% 50%, 32% 32%)",
   },
   {
     name: "launch-support",
     title: "Keep it alive after launch",
     text: "Monitoring, iteration, and growth features on a retainer that flexes with you. Your product keeps improving while you run the business.",
     chips: ["MONITORING", "ITERATION", "GROWTH"],
-    shape: "polygon(50% 12%, 80% 2%, 98% 28%, 88% 60%, 62% 98%, 30% 90%, 4% 66%, 12% 26%)",
   },
 ];
 
@@ -242,18 +239,16 @@ function initFeatureStage() {
   const title = wrap.querySelector<HTMLElement>(".stage-title")!;
   const text = wrap.querySelector<HTMLElement>(".stage-text")!;
   const chips = wrap.querySelector<HTMLElement>(".stage-chips")!;
-  const shapes = Array.from(wrap.querySelectorAll<HTMLElement>(".morph-shape"));
   const bar = wrap.querySelector<HTMLElement>(".stage-progress i")!;
+  const fx = initStageFX();
   let current = 0;
-
-  shapes.forEach((s) => (s.style.clipPath = STAGE_STEPS[0].shape));
 
   function applyStep(i: number) {
     if (i === current) return;
     current = i;
     const step = STAGE_STEPS[i];
     nums.forEach((n, j) => n.classList.toggle("is-on", j === i));
-    shapes.forEach((s) => (s.style.clipPath = step.shape)); // CSS transition morphs it
+    fx?.setStep(i);
     name.textContent = step.name;
     // wipe copy out with a clip sweep, swap content, sweep back in
     const copyEls = [title, text, chips];
@@ -295,7 +290,7 @@ function initProjects() {
     .map(
       (p) => `
       <article class="project-card">
-        <div class="project-cover hue-${p.hue}"><span class="project-mark">${p.name.slice(0, 2)}</span></div>
+        <div class="project-cover hue-${p.hue}"><canvas class="cover-canvas" data-hue="${p.hue}"></canvas><span class="project-mark">${p.name.slice(0, 2)}</span></div>
         <div class="project-body">
           <div class="project-meta tag-mono"><span>${p.type}</span><span>${p.year}</span></div>
           <h4>${p.name}</h4>
@@ -305,6 +300,7 @@ function initProjects() {
       </article>`
     )
     .join("");
+  grid.querySelectorAll<HTMLCanvasElement>(".cover-canvas").forEach((c) => attachCoverFX(c, c.dataset.hue ?? "orange"));
 }
 
 /* ---------- form ---------- */
