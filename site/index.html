@@ -41,8 +41,7 @@
         <span class="menu-label">Menu</span>
       </button>
       <div class="nav-right">
-        <a href="#start" class="btn-swoosh btn-plus" aria-label="Start a project"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">+</span></a>
-        <a href="#start" class="btn-swoosh nav-cta"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Start a project</span></a>
+        <a href="#start" class="btn-swoosh nav-cta"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Start a project&#8202;&#8202;+</span></a>
       </div>
     </header>
 
@@ -112,40 +111,35 @@
         <h2 class="text-60" data-fx="scan-text">Your business, <em>upgraded</em></h2>
         <p class="features-sub">Summonware isn't a single service. It's a complete system built around how you actually operate.</p>
 
-        <article class="feature-block" id="f-01">
-          <header class="feature-head"><span class="feature-num tag-mono">01</span><span class="feature-name tag-mono">ai-systems</span></header>
-          <h3 class="text-45">Turn a workflow into an AI engine</h3>
-          <p>We build agents and pipelines around your real operations. Describe the process once — then watch it run itself, in the style and stack you choose. Automate the grind, keep the judgment calls.</p>
-          <div class="feature-visual visual-arranger">
-            <div class="chip-row"><span class="chip is-on">OPS COPILOT</span><span class="chip">SUPPORT AGENT</span><span class="chip">DATA PIPELINE</span></div>
-            <div class="wave-bars" aria-hidden="true"></div>
+        <!-- Pinned stage: scroll scrubs through the 4 services; the
+             shape panel morphs and the copy wipes between steps. -->
+        <div class="feature-stage-wrap">
+          <div class="feature-stage">
+            <div class="stage-copy">
+              <header class="feature-head">
+                <span class="stage-nums tag-mono"><b class="is-on">01</b><b>02</b><b>03</b><b>04</b></span>
+                <span class="stage-name tag-mono">ai-systems</span>
+              </header>
+              <h3 class="text-45 stage-title">Turn a workflow into an AI engine</h3>
+              <p class="stage-text">We build agents and pipelines around your real operations. Describe the process once — then watch it run itself. Automate the grind, keep the judgment calls.</p>
+              <div class="chip-row stage-chips">
+                <span class="chip is-on">OPS COPILOT</span><span class="chip">SUPPORT AGENT</span><span class="chip">DATA PIPELINE</span>
+              </div>
+            </div>
+            <div class="stage-visual">
+              <div class="morph-shape" aria-hidden="true"></div>
+              <div class="morph-shape morph-echo" aria-hidden="true"></div>
+            </div>
+            <div class="stage-progress" aria-hidden="true"><i></i></div>
           </div>
-        </article>
+        </div>
+      </section>
 
-        <article class="feature-block" id="f-02">
-          <header class="feature-head"><span class="feature-num tag-mono">02</span><span class="feature-name tag-mono">custom-software</span></header>
-          <h3 class="text-45">Unlimited product, instantly scoped</h3>
-          <p>Great software without hiring, managing, and firefighting a dev org — or full control if you want it. Web apps, platforms, internal tools: modern stack, clean architecture, yours to keep.</p>
-          <div class="feature-visual visual-grid">
-            <div class="stat"><strong data-count="120">0</strong><span>releases shipped / yr</span></div>
-            <div class="stat"><strong data-count="14">0</strong><span>days to first demo</span></div>
-            <div class="stat"><strong data-count="100">0</strong><span>% code ownership</span></div>
-          </div>
-        </article>
-
-        <article class="feature-block" id="f-03">
-          <header class="feature-head"><span class="feature-num tag-mono">03</span><span class="feature-name tag-mono">product-design</span></header>
-          <h3 class="text-45">Design that sells before it ships</h3>
-          <p>Interfaces your customers actually enjoy — researched, prototyped, and tested. We design the journey first, so engineering builds the right thing once.</p>
-          <div class="feature-visual visual-frames"><div class="frame f1"></div><div class="frame f2"></div><div class="frame f3"></div></div>
-        </article>
-
-        <article class="feature-block" id="f-04">
-          <header class="feature-head"><span class="feature-num tag-mono">04</span><span class="feature-name tag-mono">launch-support</span></header>
-          <h3 class="text-45">Keep it alive after launch</h3>
-          <p>Monitoring, iteration, and growth features on a retainer that flexes with you. Your product keeps improving while you run the business.</p>
-          <div class="feature-visual visual-pulse"><div class="pulse-line" aria-hidden="true"></div></div>
-        </article>
+      <!-- ===== 04b Projects showcase (placeholder data, format is canonical) ===== -->
+      <section id="projects" class="projects" data-track-section="04b_projects">
+        <p class="tag-mono section-tag"><span class="tag-square"></span>selected work</p>
+        <h2 class="text-60" data-fx="scan-text">Things we've <em>summoned</em></h2>
+        <div class="projects-grid" id="projects-grid"><!-- populated from data/projects.json --></div>
       </section>
 
       <!-- ===== 05 Remote or embedded (dark) ===== -->

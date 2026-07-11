@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Atlas Ops",
+    "type": "Internal platform",
+    "year": "2026",
+    "blurb": "Logistics control tower with an AI dispatcher that plans 400+ daily routes.",
+    "tags": ["AI systems", "React", "Python"],
+    "hue": "orange"
+  },
+  {
+    "name": "Ledgerline",
+    "type": "SaaS product",
+    "year": "2026",
+    "blurb": "Invoicing for agencies — from proposal to paid in one flow.",
+    "tags": ["Custom software", "TypeScript"],
+    "hue": "dark"
+  },
+  {
+    "name": "Fieldnote",
+    "type": "Mobile companion",
+    "year": "2025",
+    "blurb": "Offline-first inspection app that syncs photos, voice notes, and reports.",
+    "tags": ["Product design", "Mobile"],
+    "hue": "light"
+  },
+  {
+    "name": "Corely",
+    "type": "AI integration",
+    "year": "2025",
+    "blurb": "Support copilot trained on 10 years of tickets — 62% auto-resolution.",
+    "tags": ["AI systems", "Claude API"],
+    "hue": "orange"
+  }
+]

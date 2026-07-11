@@ -150,11 +150,60 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 @keyframes marquee { to { transform: translateX(-50%); } }
 .section-tag { margin-bottom: 1.2rem; }
 .features-sub { max-width: 30em; margin-top: 1.2rem; color: var(--color-ink-soft); }
-.feature-block { margin-top: var(--space-section); border-top: 1px solid var(--color-line); padding-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 4rem; }
-.feature-head { grid-column: 1 / -1; display: flex; justify-content: space-between; color: var(--color-ink-soft); }
-.feature-block h3 { max-width: 11em; }
-.feature-block > p { color: var(--color-ink-soft); line-height: 1.6; max-width: 36em; }
-.feature-visual { grid-column: 1 / -1; border-radius: var(--radius-card); background: var(--color-dark); min-height: 20rem; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+/* Pinned feature stage: 400vh scroll range, stage stays fixed while
+   the copy wipes and the shape panel morphs between the 4 services. */
+.feature-stage-wrap { height: 400vh; margin-top: calc(var(--space-section) / 2); }
+.feature-stage {
+  position: sticky; top: var(--frame-pad);
+  height: calc(100vh - 2 * var(--frame-pad));
+  background: var(--color-dark); color: var(--color-white);
+  border-radius: var(--frame-radius);
+  display: grid; grid-template-columns: 1.1fr 1fr; align-items: center;
+  gap: 2rem; padding: clamp(2rem, 5vw, 4.5rem); overflow: hidden;
+}
+.feature-head { display: flex; justify-content: space-between; color: rgba(255,255,255,0.6); margin-bottom: 2rem; }
+.stage-nums { display: flex; gap: 0.9em; }
+.stage-nums b { font-weight: 400; opacity: 0.35; transition: opacity var(--dur-fast), color var(--dur-fast); }
+.stage-nums b.is-on { opacity: 1; color: var(--color-accent); }
+.stage-title { max-width: 11em; min-height: 2.4em; }
+.stage-text { color: rgba(255,255,255,0.72); line-height: 1.6; max-width: 32em; margin-top: 1.2rem; min-height: 5em; }
+.stage-chips { margin-top: 1.6rem; }
+.stage-visual { position: relative; height: min(26rem, 60vh); }
+.morph-shape {
+  position: absolute; inset: 0;
+  background: linear-gradient(150deg, var(--color-accent), var(--color-accent-deep));
+  transition: clip-path 0.9s var(--ease-out);
+}
+.morph-echo {
+  background: transparent; border: 1.5px dashed rgba(255,255,255,0.35);
+  transform: scale(1.06); transition-delay: 0.08s;
+}
+.stage-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,0.1); }
+.stage-progress i { display: block; height: 100%; width: 0; background: var(--color-accent); }
+
+/* legacy per-block visuals reused inside stage chips */
+.feature-visual { border-radius: var(--radius-card); background: var(--color-dark); min-height: 20rem; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+
+/* ===== Projects showcase ===== */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
+.project-card {
+  border-radius: var(--radius-card); overflow: hidden; background: var(--color-white);
+  border: 1px solid var(--color-line); display: flex; flex-direction: column;
+  transition: transform 0.4s var(--ease-out);
+}
+.project-card:hover { transform: translateY(-6px); }
+.project-cover { aspect-ratio: 4/3; position: relative; display: flex; align-items: center; justify-content: center; }
+.project-cover.hue-orange { background: linear-gradient(150deg, var(--color-accent), var(--color-accent-deep)); }
+.project-cover.hue-dark { background: linear-gradient(150deg, var(--color-dark), var(--color-dark-2)); }
+.project-cover.hue-light { background: linear-gradient(150deg, var(--color-bg-2), var(--color-bg)); }
+.project-mark { font-size: 3rem; font-weight: 700; letter-spacing: -0.04em; color: rgba(255,255,255,0.85); }
+.project-cover.hue-light .project-mark { color: var(--color-ink); }
+.project-body { padding: 1.4rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.project-meta { display: flex; justify-content: space-between; color: var(--color-ink-soft); }
+.project-body h4 { font-size: 1.25rem; }
+.project-body p { color: var(--color-ink-soft); line-height: 1.5; font-size: 0.95rem; }
+.project-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.4rem; }
+.project-tags span { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; border: 1px solid var(--color-line); border-radius: var(--radius-pill); padding: 0.3rem 0.7rem; color: var(--color-ink-soft); }
 .chip-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 .chip { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-white); border: 1px solid var(--color-line-light); border-radius: var(--radius-pill); padding: 0.45rem 0.9rem; opacity: 0.6; }
 .chip.is-on { background: var(--color-accent); border-color: var(--color-accent); opacity: 1; }
@@ -261,7 +310,8 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 /* ===== Responsive ===== */
 @media (max-width: 760px) {
   .brand-word, .nav-cta { display: none; }
-  .feature-block { grid-template-columns: 1fr; }
+  .feature-stage { grid-template-columns: 1fr; align-content: center; }
+  .stage-visual { height: 11rem; }
   .timeline-list li { grid-template-columns: 1fr; gap: 0.5rem; }
   .engagement-cards { grid-template-columns: 1fr; }
   .d-card.wide { grid-column: span 1; }
