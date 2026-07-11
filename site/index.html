@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
   <body>
+    <div class="viewport-frame" aria-hidden="true"></div>
     <!-- ===== Preloader ===== -->
     <section class="preloader">
       <div class="preloader-center">
@@ -30,8 +31,8 @@
       <a href="#" class="brand sigil-brand">
         <svg class="sigil" viewBox="0 0 48 48" aria-hidden="true">
           <path d="M24 4 L38 14 L44 32 L24 44 L4 32 L10 14 Z" fill="currentColor"/>
-          <circle cx="18" cy="24" r="2.6" fill="var(--color-bg)"/>
-          <circle cx="30" cy="24" r="2.6" fill="var(--color-bg)"/>
+          <circle cx="18" cy="24" r="2.6" fill="var(--color-accent)"/>
+          <circle cx="30" cy="24" r="2.6" fill="var(--color-accent)"/>
         </svg>
         <span class="brand-word">Summonware</span>
       </a>
@@ -40,6 +41,7 @@
         <span class="menu-label">Menu</span>
       </button>
       <div class="nav-right">
+        <a href="#start" class="btn-swoosh btn-plus" aria-label="Start a project"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">+</span></a>
         <a href="#start" class="btn-swoosh nav-cta"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Start a project</span></a>
       </div>
     </header>
@@ -71,6 +73,13 @@
           <h1 class="hero-heading" hero-heading>Software that ships itself into <em>existence</em></h1>
           <p class="hero-description" hero-description>Even one call is enough to start. Tell us the outcome you need — we summon the product: scoped, designed, and built with an AI-accelerated pipeline that never steals your quarter.</p>
           <a href="#start" class="btn-swoosh hero-cta"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Book a free call</span></a>
+        </div>
+        <div class="orbit-badge" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <defs><path id="orbit-path" d="M 60,60 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0"/></defs>
+            <text><textPath href="#orbit-path">summonware · software · summoned ·&#160;</textPath></text>
+            <circle class="orbit-dot" cx="60" cy="60" r="5"/>
+          </svg>
         </div>
         <div class="hero-intro" id="intro-text">
           <div class="dashed-circle" aria-hidden="true"></div>
@@ -150,7 +159,7 @@
       </section>
 
       <!-- ===== 06 One team ===== -->
-      <section id="one-team" class="one-team section-dark" data-track-section="06_one_team">
+      <section id="one-team" class="one-team section-dark section-view" data-track-section="06_one_team">
         <h2 class="text-60" data-fx="scan-text" data-fx-color="light">And all this in one small team</h2>
         <ul class="spec-chips">
           <li><span class="tag-mono">SENIOR ONLY</span> no juniors on your bill</li>
@@ -186,7 +195,7 @@
       </section>
 
       <!-- ===== 09 Start form (dark) ===== -->
-      <section id="start" class="start section-dark" data-track-section="09_start">
+      <section id="start" class="start section-dark section-view" data-track-section="09_start">
         <p class="tag-mono section-tag light"><span class="tag-square"></span>start with summonware</p>
         <h2 class="text-45" data-fx="scan-text" data-fx-color="light">Join the next build slot</h2>
         <p class="start-copy">A free discovery call to scope it. <strong>Fixed quote in 5 days.</strong> Book the call and we map your idea to a plan: milestones, budget, and the first demo date. The call just holds your slot — no commitment until you see the plan.</p>
@@ -248,6 +257,7 @@
       <p class="tag-mono">contact us</p>
       <h2 class="text-60">Any questions?</h2>
       <a class="btn-swoosh" href="mailto:hello@summonware.com"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Ask us anything</span></a>
+      <div class="footer-ghost" aria-hidden="true">Summonware</div>
       <div class="footer-meta">
         <span>© 2026 Summonware</span>
         <a href="#">terms</a><a href="#">privacy policy</a><a href="#">linkedin</a>

@@ -13,6 +13,15 @@ a { color: inherit; text-decoration: none; }
 em { font-style: normal; color: var(--color-accent); }
 section { padding: var(--space-section) var(--space-gutter); position: relative; }
 
+/* Fixed viewport frame: rounded window inset from the screen edge.
+   The huge box-shadow paints everything outside the rounded rect in
+   the page background, so all content appears inside a framed pane. */
+.viewport-frame {
+  position: fixed; inset: var(--frame-pad); z-index: 60;
+  border-radius: var(--frame-radius); pointer-events: none;
+  box-shadow: 0 0 0 100vmax var(--color-bg);
+}
+
 .text-60 { font-size: var(--text-60); font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; }
 .text-45 { font-size: var(--text-45); font-weight: 600; line-height: 1.1; letter-spacing: -0.015em; }
 .text-30 { font-size: var(--text-30); font-weight: 500; line-height: 1.15; }
@@ -21,7 +30,13 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 
 .tag-square { display: inline-block; width: 0.55em; height: 0.55em; background: var(--color-accent); margin-right: 0.6em; }
 
-.section-dark { background: var(--color-dark); color: var(--color-white); border-radius: var(--radius-card); margin: 0 clamp(0.5rem, 1.5vw, 1.25rem); }
+.section-dark { background: var(--color-dark); color: var(--color-white); border-radius: var(--frame-radius); margin: 0 var(--frame-pad); }
+
+/* Full-viewport section: header + content compose one framed view */
+.section-view {
+  min-height: calc(100vh - 2 * var(--frame-pad));
+  display: flex; flex-direction: column; justify-content: center;
+}
 
 /* ===== Preloader ===== */
 .preloader {
@@ -44,9 +59,15 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 
 /* ===== Nav ===== */
 .nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  position: fixed; top: var(--frame-pad); left: var(--frame-pad); right: var(--frame-pad); z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 1rem var(--space-gutter);
+  padding: 1.5rem;
+}
+.nav-right { display: flex; align-items: center; gap: 0.5rem; }
+.btn-plus {
+  width: 2.7rem; height: 2.7rem; padding: 0; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; font-weight: 400; line-height: 1;
 }
 .brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; letter-spacing: -0.02em; transition: color var(--dur-fast); }
 .brand-word { font-size: 1.05rem; }
@@ -110,7 +131,7 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 .intro-sub { margin-top: 1rem; color: var(--color-ink-soft); }
 
 /* ===== No overhead ===== */
-.no-overhead { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
+.no-overhead { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; min-height: calc(100vh - 2 * var(--frame-pad)); }
 .swap-word { color: var(--color-accent); display: inline-block; min-width: 4.5em; text-align: left; }
 .no-overhead .lead { font-size: var(--text-30); }
 .no-overhead .sub { opacity: 0.7; max-width: 36em; }
@@ -153,7 +174,7 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 @keyframes pulse-slide { 0% { transform: translateX(-30%);} 100% { transform: translateX(30%);} }
 
 /* ===== Engagement / one team ===== */
-.engagement { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+.engagement { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; min-height: calc(100vh - 2 * var(--frame-pad)); }
 .sub-wide { opacity: 0.75; max-width: 44em; line-height: 1.6; }
 .engagement-cards { display: grid; grid-template-columns: repeat(2, minmax(14rem, 22rem)); gap: 1.2rem; margin-top: 1.5rem; }
 .e-card { border: 1px solid var(--color-line-light); border-radius: var(--radius-card); padding: 1.8rem; }
@@ -219,8 +240,23 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 .footer { padding: var(--space-section) var(--space-gutter) 3rem; display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; margin-bottom: clamp(0.5rem, 1.5vw, 1.25rem); }
 .footer-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; opacity: 0.6; font-size: 0.85rem; margin-top: 2rem; }
 
-/* scan-text initial state */
-[data-fx="scan-text"] { --scan-color: currentColor; }
+/* scan-text: left-to-right clip sweep with a trailing accent tint */
+[data-fx="scan-text"] { clip-path: inset(0 100% 0 0); }
+[data-fx="scan-text"].is-scanned { clip-path: inset(0 0 0 0); transition: clip-path 1s var(--ease-out); }
+
+/* rotating circular badge */
+.orbit-badge { position: absolute; right: var(--space-gutter); bottom: 10vh; width: 7.5rem; height: 7.5rem; z-index: 2; }
+.orbit-badge svg { width: 100%; height: 100%; animation: spin 18s linear infinite; }
+.orbit-badge text { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.28em; fill: var(--color-ink); text-transform: uppercase; }
+.orbit-badge .orbit-dot { fill: var(--color-accent); }
+
+/* footer ghost wordmark */
+.footer { overflow: hidden; }
+.footer-ghost {
+  font-size: clamp(6rem, 21vw, 20rem); font-weight: 700; letter-spacing: -0.04em;
+  line-height: 0.78; color: rgba(255,255,255,0.05); user-select: none;
+  margin: 2rem calc(-1 * var(--space-gutter)) -0.12em; white-space: nowrap;
+}
 
 /* ===== Responsive ===== */
 @media (max-width: 760px) {

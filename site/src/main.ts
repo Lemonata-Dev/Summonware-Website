@@ -36,13 +36,11 @@ function scrambleText(el: HTMLElement, duration = 0.8) {
 function initScanText() {
   document.querySelectorAll<HTMLElement>("[data-fx='scan-text']").forEach((el) => {
     const delay = parseFloat(el.dataset.fxDelay ?? "0");
-    gsap.set(el, { opacity: 0, y: 24 });
     ScrollTrigger.create({
       trigger: el,
       start: "top 85%",
       once: true,
-      onEnter: () =>
-        gsap.to(el, { opacity: 1, y: 0, duration: 0.9, delay, ease: "power3.out" }),
+      onEnter: () => setTimeout(() => el.classList.add("is-scanned"), delay * 1000),
     });
   });
 }

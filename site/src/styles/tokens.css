@@ -3,7 +3,7 @@
   /* Color */
   --color-ink: #24282b;
   --color-ink-soft: #4a5055;
-  --color-accent: #ff4d0d;
+  --color-accent: #fc5d20;
   --color-accent-deep: #e63d00;
   --color-bg: #f2f3f4;
   --color-bg-2: #e8eaec;
@@ -30,6 +30,8 @@
   --space-gutter: clamp(1.25rem, 4vw, 4rem);
   --radius-card: 1.5rem;
   --radius-pill: 999px;
+  --frame-pad: 0.65rem;
+  --frame-radius: 1rem;
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
