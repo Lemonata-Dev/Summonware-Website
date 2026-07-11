@@ -136,7 +136,11 @@
       <section id="projects" class="projects" data-track-section="04b_projects">
         <p class="tag-mono section-tag"><span class="tag-square"></span>selected work</p>
         <h2 class="text-60" data-fx="scan-text">Things we've <em>summoned</em></h2>
-        <div class="projects-grid" id="projects-grid"><!-- populated from data/projects.json --></div>
+        <div class="carousel-wrap">
+          <canvas id="projects-canvas"></canvas>
+          <p class="drag-hint tag-mono"><span class="drag-arrow">←</span> drag to explore <span class="drag-arrow">→</span></p>
+        </div>
+        <div class="project-detail" id="project-detail"><!-- active project info --></div>
       </section>
 
       <!-- ===== 05 Remote or embedded (dark) ===== -->

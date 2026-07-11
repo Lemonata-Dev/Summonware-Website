@@ -4,7 +4,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { initHero3D } from "./hero3d";
 import { initStageFX } from "./stage3d";
-import { attachCoverFX } from "./projectfx";
+import { initProjects3D } from "./projects3d";
+import { initCursor, initMagnetic } from "./fx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -250,16 +251,20 @@ function initFeatureStage() {
     nums.forEach((n, j) => n.classList.toggle("is-on", j === i));
     fx?.setStep(i);
     name.textContent = step.name;
-    // wipe copy out with a clip sweep, swap content, sweep back in
+    // wipe copy out with a clip sweep, swap content, sweep back in.
+    // Content is resolved at swap time from `current` so an interrupted
+    // transition always lands on the latest step, never a stale one.
     const copyEls = [title, text, chips];
+    gsap.killTweensOf(copyEls);
     gsap.to(copyEls, {
       clipPath: "inset(0 100% 0 0)",
       duration: 0.3,
       ease: "power2.in",
       onComplete: () => {
-        title.textContent = step.title;
-        text.textContent = step.text;
-        chips.innerHTML = step.chips
+        const s = STAGE_STEPS[current];
+        title.textContent = s.title;
+        text.textContent = s.text;
+        chips.innerHTML = s.chips
           .map((c, j) => `<span class="chip${j === 0 ? " is-on" : ""}">${c}</span>`)
           .join("");
         gsap.to(copyEls, { clipPath: "inset(0 0% 0 0)", duration: 0.5, ease: "power3.out" });
@@ -280,27 +285,11 @@ function initFeatureStage() {
   });
 }
 
-/* ---------- projects showcase (data-driven placeholder format) ---------- */
+/* ---------- projects showcase (data-driven, 3D carousel) ---------- */
 import projects from "./data/projects.json";
 
 function initProjects() {
-  const grid = document.getElementById("projects-grid");
-  if (!grid) return;
-  grid.innerHTML = projects
-    .map(
-      (p) => `
-      <article class="project-card">
-        <div class="project-cover hue-${p.hue}"><canvas class="cover-canvas" data-hue="${p.hue}"></canvas><span class="project-mark">${p.name.slice(0, 2)}</span></div>
-        <div class="project-body">
-          <div class="project-meta tag-mono"><span>${p.type}</span><span>${p.year}</span></div>
-          <h4>${p.name}</h4>
-          <p>${p.blurb}</p>
-          <div class="project-tags">${p.tags.map((t) => `<span>${t}</span>`).join("")}</div>
-        </div>
-      </article>`
-    )
-    .join("");
-  grid.querySelectorAll<HTMLCanvasElement>(".cover-canvas").forEach((c) => attachCoverFX(c, c.dataset.hue ?? "orange"));
+  initProjects3D(projects);
 }
 
 /* ---------- form ---------- */
@@ -326,3 +315,5 @@ initForm();
 initFeatureStage();
 initProjects();
 initHero3D();
+initCursor();
+initMagnetic();

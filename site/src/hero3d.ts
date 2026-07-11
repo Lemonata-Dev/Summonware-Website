@@ -59,6 +59,37 @@ export function initHero3D() {
   rig.add(core, shards, ring);
   scene.add(rig);
 
+  // atmospheric background: soft noise field that leans toward the cursor
+  const bgUniforms = {
+    uTime: { value: 0 },
+    uMouse: { value: new THREE.Vector2(0, 0) },
+  };
+  const bg = new THREE.Mesh(
+    new THREE.PlaneGeometry(40, 24),
+    new THREE.ShaderMaterial({
+      depthWrite: false,
+      transparent: true,
+      uniforms: bgUniforms,
+      vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+      fragmentShader: /* glsl */ `
+        precision highp float;
+        uniform float uTime; uniform vec2 uMouse; varying vec2 vUv;
+        float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+        float noise(vec2 p){ vec2 i=floor(p), f=fract(p); vec2 u=f*f*(3.-2.*f);
+          return mix(mix(hash(i),hash(i+vec2(1,0)),u.x), mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x), u.y); }
+        void main(){
+          vec2 uv = vUv;
+          float n = noise(uv*3.0 + uTime*0.03) * 0.6 + noise(uv*7.0 - uTime*0.02) * 0.4;
+          float m = exp(-length(uv - 0.5 - uMouse*0.18) * 2.2);
+          vec3 warm = vec3(0.988, 0.365, 0.125);
+          vec3 col = mix(vec3(0.0), warm, n * 0.10 + m * 0.10);
+          gl_FragColor = vec4(col, n * 0.35 + m * 0.25);
+        }`,
+    })
+  );
+  bg.position.z = -8;
+  scene.add(bg);
+
   function resize() {
     const w = canvas!.clientWidth, h = canvas!.clientHeight;
     renderer.setSize(w, h, false);
@@ -90,6 +121,8 @@ export function initHero3D() {
     const el = clock.getElapsedTime();
     const t = progress.t;
 
+    bgUniforms.uTime.value = el;
+    bgUniforms.uMouse.value.set(mouse.x, -mouse.y);
     rig.rotation.y = el * 0.15 + t * Math.PI * 2 + mouse.x * 0.35;
     rig.rotation.x += (mouse.y * 0.22 - rig.rotation.x) * 0.06;
     rim.position.x += (mouse.x * 6 - rim.position.x) * 0.05;
