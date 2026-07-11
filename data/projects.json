@@ -1,0 +1,29 @@
+[
+  {
+    "id": "project-placeholder-01",
+    "client": "PLACEHOLDER CLIENT A",
+    "industry": "PLACEHOLDER INDUSTRY",
+    "problem": "PLACEHOLDER — Client was running core operations through spreadsheets and manual handoffs.",
+    "solution": "PLACEHOLDER — Summonware built a custom internal platform to replace the manual process end to end.",
+    "outcome": "PLACEHOLDER — Reduced processing time from days to minutes.",
+    "thumbnail": "placeholder-project-01.jpg"
+  },
+  {
+    "id": "project-placeholder-02",
+    "client": "PLACEHOLDER CLIENT B",
+    "industry": "PLACEHOLDER INDUSTRY",
+    "problem": "PLACEHOLDER — Client needed an AI feature added to an existing product but had no in-house AI expertise.",
+    "solution": "PLACEHOLDER — Summonware designed and integrated an AI-powered feature into the existing product.",
+    "outcome": "PLACEHOLDER — Feature shipped in under two months, adopted by X% of active users.",
+    "thumbnail": "placeholder-project-02.jpg"
+  },
+  {
+    "id": "project-placeholder-03",
+    "client": "PLACEHOLDER CLIENT C",
+    "industry": "PLACEHOLDER INDUSTRY",
+    "problem": "PLACEHOLDER — Client had an idea for a new product but no technical team to build it.",
+    "solution": "PLACEHOLDER — Summonware acted as the full product & engineering team from concept to launch.",
+    "outcome": "PLACEHOLDER — Product launched and is now in active use by paying customers.",
+    "thumbnail": "placeholder-project-03.jpg"
+  }
+]

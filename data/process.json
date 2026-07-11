@@ -1,0 +1,26 @@
+[
+  {
+    "step": "01",
+    "title": "We map the problem",
+    "description": "PLACEHOLDER — We start by understanding what's actually broken or missing — not the solution you think you want, but the problem underneath it.",
+    "materializeStage": "scattered"
+  },
+  {
+    "step": "02",
+    "title": "We design the shape",
+    "description": "PLACEHOLDER — We translate the problem into a concrete plan: what gets built, in what order, and how it fits your existing systems.",
+    "materializeStage": "forming"
+  },
+  {
+    "step": "03",
+    "title": "We build it for real",
+    "description": "PLACEHOLDER — Engineering starts, with working software visible early and often — not a black box until launch day.",
+    "materializeStage": "resolving"
+  },
+  {
+    "step": "04",
+    "title": "We ship and stay on",
+    "description": "PLACEHOLDER — Launch is the start, not the end — we support, measure, and improve what we built alongside you.",
+    "materializeStage": "resolved"
+  }
+]

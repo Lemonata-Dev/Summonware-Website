@@ -1,0 +1,14 @@
+{
+  "headline": "Tell us what you need built",
+  "subtext": "PLACEHOLDER — We take on a limited number of projects at a time. Reach out and we'll get back to you within [PLACEHOLDER TIMEFRAME].",
+  "person": {
+    "name": "PLACEHOLDER NAME",
+    "role": "PLACEHOLDER ROLE — e.g. Founder / Creative Lead",
+    "photo": "placeholder-person.jpg"
+  },
+  "buttonLabel": "Start the conversation",
+  "contact": {
+    "email": "PLACEHOLDER@summonware.com",
+    "phone": "PLACEHOLDER"
+  }
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "custom-software",
+    "code": "N.01",
+    "title": "Custom Software",
+    "headline": "Turn manual workflows into working software",
+    "description": "PLACEHOLDER — We design and build software tailored to how your business actually operates, not the other way around.",
+    "icon": "placeholder-icon-01"
+  },
+  {
+    "id": "ai-integration",
+    "code": "N.02",
+    "title": "AI Integration",
+    "headline": "Put AI to work inside your existing operations",
+    "description": "PLACEHOLDER — We embed AI capabilities into your products and internal tools where they create real, measurable value.",
+    "icon": "placeholder-icon-02"
+  },
+  {
+    "id": "product-design-build",
+    "code": "N.03",
+    "title": "Product Design & Build",
+    "headline": "From idea to shipped product",
+    "description": "PLACEHOLDER — Full-cycle design and engineering for new digital products, from first sketch to production launch.",
+    "icon": "placeholder-icon-03"
+  },
+  {
+    "id": "systems-automation",
+    "code": "N.04",
+    "title": "Systems & Automation",
+    "headline": "Remove the manual work between your tools",
+    "description": "PLACEHOLDER — We connect and automate the systems your business already depends on, so teams spend less time on repetitive work.",
+    "icon": "placeholder-icon-04"
+  },
+  {
+    "id": "consulting-strategy",
+    "code": "N.05",
+    "title": "Technology Consulting",
+    "headline": "A technical partner before you write a line of code",
+    "description": "PLACEHOLDER — We help you decide what to build, what to buy, and what to skip — before any engineering starts.",
+    "icon": "placeholder-icon-05"
+  }
+]
