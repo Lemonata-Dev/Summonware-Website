@@ -32,6 +32,10 @@
   --radius-pill: 999px;
   --frame-pad: 0.65rem;
   --frame-radius: 1rem;
+  /* JS (index.html head script) overwrites this with the live Visual
+     Viewport height in px on mobile, tracking the address bar in real
+     time. This dvh value is the pre-JS / desktop fallback. */
+  --vvh: 100dvh;
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);

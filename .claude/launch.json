@@ -4,7 +4,7 @@
     {
       "name": "summonware-site",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "site", "--", "--port", "5183"],
+      "runtimeArgs": ["run", "dev", "--prefix", "site", "--", "--port", "5183", "--host"],
       "port": 5183
     }
   ]
