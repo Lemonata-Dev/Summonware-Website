@@ -15,9 +15,17 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 
 /* Fixed viewport frame: rounded window inset from the screen edge.
    The huge box-shadow paints everything outside the rounded rect in
-   the page background, so all content appears inside a framed pane. */
+   the page background, so all content appears inside a framed pane.
+   Sized with explicit top/height (not `inset`) using --vvh, a JS-driven
+   px value (see index.html head script) rather than `dvh` — mobile
+   browsers only recompute `dvh` at layout checkpoints, not on every
+   frame of an active touch-drag, so a `dvh`-sized fixed element visibly
+   lags the real viewport while the address bar is mid-animation. --vvh
+   tracks window.visualViewport.height, which updates far more often. */
 .viewport-frame {
-  position: fixed; inset: var(--frame-pad); z-index: 60;
+  position: fixed; top: var(--frame-pad); left: var(--frame-pad); right: var(--frame-pad);
+  height: calc(var(--vvh) - 2 * var(--frame-pad));
+  z-index: 60;
   border-radius: var(--frame-radius); pointer-events: none;
   box-shadow: 0 0 0 100vmax var(--color-bg);
 }
@@ -32,9 +40,11 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 
 .section-dark { background: var(--color-dark); color: var(--color-white); border-radius: var(--frame-radius); margin: 0 var(--frame-pad); }
 
-/* Full-viewport section: header + content compose one framed view */
+/* Full-viewport section: header + content compose one framed view.
+   --vvh (not vh/dvh) so this tracks the real visible area live as mobile
+   browser chrome shows/hides on scroll — see .viewport-frame for why. */
 .section-view {
-  min-height: calc(100vh - 2 * var(--frame-pad));
+  min-height: calc(var(--vvh) - 2 * var(--frame-pad));
   display: flex; flex-direction: column; justify-content: center;
 }
 
@@ -110,11 +120,11 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 .menu-meta { display: flex; flex-wrap: wrap; gap: 1.4rem; opacity: 0.7; font-size: 0.9rem; align-items: center; }
 
 /* ===== Hero ===== */
-.hero { min-height: 260vh; padding: 0; }
-.hero-canvas-wrap { position: sticky; top: 0; height: 100vh; width: 100%; }
+.hero { min-height: calc(var(--vvh) * 2.6); padding: 0; }
+.hero-canvas-wrap { position: sticky; top: 0; height: var(--vvh); width: 100%; }
 #scroll-canvas { width: 100%; height: 100%; display: block; }
 .hero-copy {
-  position: absolute; top: 0; left: 0; right: 0; height: 100vh;
+  position: absolute; top: 0; left: 0; right: 0; height: var(--vvh);
   padding: 7rem var(--space-gutter) 0; pointer-events: none; z-index: 2;
 }
 .hero-copy a { pointer-events: auto; }
@@ -122,26 +132,24 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 .hero-heading { font-size: var(--text-hero); font-weight: 600; line-height: 1.02; letter-spacing: -0.03em; max-width: 12em; }
 .hero-description { max-width: 34em; margin-top: 1.6rem; font-size: var(--text-body); color: var(--color-ink-soft); line-height: 1.55; }
 .hero-cta { margin-top: 2rem; }
+/* Anchored to the final screen of the sticky-scroll hero, so when this
+   block scrolls into the pinned viewport window it lands vertically
+   centered on screen instead of clipped in near the bottom edge. */
 .hero-intro {
-  position: absolute; bottom: 8vh; left: 0; right: 0; z-index: 2;
-  padding: 0 var(--space-gutter); max-width: 46rem; margin-inline: auto; text-align: center;
+  position: absolute; bottom: 0; left: 0; right: 0; height: var(--vvh); z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0 var(--space-gutter); text-align: center;
 }
+.hero-intro > * { max-width: 46rem; }
 .dashed-circle { width: 5.5rem; height: 5.5rem; margin: 0 auto 1.5rem; border: 1.5px dashed var(--color-ink); border-radius: 50%; animation: spin 24s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .intro-sub { margin-top: 1rem; color: var(--color-ink-soft); }
 
 /* ===== No overhead ===== */
-.no-overhead { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; min-height: calc(100vh - 2 * var(--frame-pad)); }
+.no-overhead { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2rem; min-height: calc(var(--vvh) - 2 * var(--frame-pad)); }
 .swap-word { color: var(--color-accent); display: inline-block; min-width: 4.5em; text-align: left; }
 .no-overhead .lead { font-size: var(--text-30); }
 .no-overhead .sub { opacity: 0.7; max-width: 36em; }
-.context-pills { display: flex; gap: 0.8rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem; }
-.pill {
-  border: 1px solid var(--color-line-light); background: transparent; color: var(--color-white);
-  border-radius: var(--radius-pill); padding: 0.7rem 1.4rem; cursor: pointer;
-  font-family: var(--font-body); font-size: 0.95rem; transition: all var(--dur-fast);
-}
-.pill.is-active, .pill:hover { background: var(--color-white); color: var(--color-ink); }
 
 /* ===== Features ===== */
 .features { padding-top: 0; }
@@ -150,18 +158,18 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 @keyframes marquee { to { transform: translateX(-50%); } }
 .section-tag { margin-bottom: 1.2rem; }
 .features-sub { max-width: 30em; margin-top: 1.2rem; color: var(--color-ink-soft); }
-/* Pinned feature stage: 400vh scroll range, stage stays fixed while
+/* Pinned feature stage: 4-screen scroll range, stage stays fixed while
    the copy wipes and the shape panel morphs between the 4 services. */
 /* full-bleed to the viewport frame: cancel the section gutter so the
    stage panel aligns with every other dark panel */
 .feature-stage-wrap {
-  height: 400vh;
+  height: calc(var(--vvh) * 4);
   margin-top: calc(var(--space-section) / 2);
   margin-inline: calc(var(--frame-pad) - var(--space-gutter));
 }
 .feature-stage {
   position: sticky; top: var(--frame-pad);
-  height: calc(100vh - 2 * var(--frame-pad));
+  height: calc(var(--vvh) - 2 * var(--frame-pad));
   background: var(--color-dark); color: var(--color-white);
   border-radius: var(--frame-radius);
   display: grid; grid-template-columns: 1.1fr 1fr; align-items: center;
@@ -226,33 +234,37 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 .pulse-line { height: 2px; background: linear-gradient(90deg, transparent, var(--color-accent), transparent); animation: pulse-slide 2.4s ease-in-out infinite; }
 @keyframes pulse-slide { 0% { transform: translateX(-30%);} 100% { transform: translateX(30%);} }
 
-/* ===== Engagement / one team ===== */
-.engagement { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; min-height: calc(100vh - 2 * var(--frame-pad)); }
-.sub-wide { opacity: 0.75; max-width: 44em; line-height: 1.6; }
-.engagement-cards { display: grid; grid-template-columns: repeat(2, minmax(14rem, 22rem)); gap: 1.2rem; margin-top: 1.5rem; }
-.e-card { border: 1px solid var(--color-line-light); border-radius: var(--radius-card); padding: 1.8rem; }
-.e-card h4 { font-size: 1.2rem; margin-bottom: 0.6rem; }
-.e-card p { opacity: 0.75; line-height: 1.55; }
+/* ===== How we work: merges engagement mode, team specs, use-cases ===== */
+.how-we-work { display: flex; flex-direction: column; justify-content: center; }
+.work-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
+.work-card { border: 1px solid var(--color-line-light); border-radius: var(--radius-card); padding: 1.8rem; display: flex; flex-direction: column; gap: 0.7rem; }
+.work-card h4 { font-size: 1.25rem; }
+.work-mode { color: var(--color-accent); }
+.work-lead { opacity: 0.85; line-height: 1.5; }
+.work-specs { list-style: none; padding: 0; margin: 0.4rem 0 0; display: flex; flex-direction: column; gap: 0.5rem; opacity: 0.7; font-size: 0.92rem; line-height: 1.5; }
+.work-specs li { padding-left: 1rem; position: relative; }
+.work-specs li::before { content: ""; position: absolute; left: 0; top: 0.5em; width: 0.4rem; height: 0.4rem; background: var(--color-accent); }
 
-.one-team { margin-top: 1rem; }
-.spec-chips { list-style: none; padding: 0; margin-top: 2.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; }
-.spec-chips li { border: 1px solid var(--color-line-light); border-radius: var(--radius-card); padding: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; opacity: 0.9; }
-.spec-chips .tag-mono { color: var(--color-accent); }
+/* ===== Trust & compliance ===== */
+.trust { display: flex; flex-direction: column; justify-content: center; }
+.trust-sub { opacity: 0.8; max-width: 34em; margin-top: 0.8rem; line-height: 1.5; }
+.trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.2rem; margin-top: 2.5rem; }
+.trust-card { border: 1px solid var(--color-line-light); border-radius: var(--radius-card); padding: 1.6rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.trust-card h4 { font-size: 1.1rem; }
+.trust-card p { opacity: 0.75; line-height: 1.5; font-size: 0.92rem; }
+.trust-note { margin-top: 2rem; opacity: 0.45; }
 
-/* ===== CTA banner ===== */
-.cta-banner {
-  margin: var(--space-section) clamp(0.5rem, 1.5vw, 1.25rem) 0;
-  background: var(--color-accent); color: var(--color-white); border-radius: var(--radius-card);
-  display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap;
-  padding: clamp(2rem, 5vw, 4rem) var(--space-gutter);
+/* ===== Language switch =====
+   Opaque pill (not a transparent/bordered one) since the nav floats
+   above whatever section is scrolled behind it — same reason .menu-pill
+   is always solid rather than trying to invert per section. */
+.lang-switch {
+  display: flex; align-items: center; gap: 0.1rem;
+  background: var(--color-dark); border-radius: var(--radius-pill);
+  padding: 0.25rem; font-family: var(--font-mono); font-size: 0.75rem;
 }
-
-/* ===== Use cases ===== */
-.use-cases { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.2rem; }
-.uc-card { border: 1px solid var(--color-line); border-radius: var(--radius-card); padding: 2rem; display: flex; flex-direction: column; gap: 0.8rem; background: var(--color-white); }
-.uc-card h4 { font-size: 1.3rem; }
-.uc-card .tag-mono { color: var(--color-accent); }
-.uc-card p:last-child { color: var(--color-ink-soft); line-height: 1.55; }
+.lang-switch a { padding: 0.35rem 0.6rem; border-radius: var(--radius-pill); color: rgba(255,255,255,0.55); transition: all var(--dur-fast); }
+.lang-switch a.is-active { background: var(--color-accent); color: var(--color-white); }
 
 /* ===== Start form ===== */
 .start { display: flex; flex-direction: column; gap: 1.2rem; align-items: flex-start; }
@@ -266,20 +278,6 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 .start-form input::placeholder, .start-form textarea::placeholder { color: rgba(255,255,255,0.45); }
 .form-success { color: var(--color-accent); max-width: 34em; }
 
-/* ===== In depth ===== */
-.depth-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin-top: 2.5rem; }
-.d-card { border: 1px solid var(--color-line); border-radius: var(--radius-card); background: var(--color-white); padding: 1.6rem; display: flex; flex-direction: column; gap: 0.7rem; }
-.d-card.wide { grid-column: span 2; }
-.d-card strong { font-size: var(--text-45); color: var(--color-accent); }
-.d-card .tag-mono { color: var(--color-accent); }
-.d-card p, .d-card span { color: var(--color-ink-soft); line-height: 1.5; }
-.d-card h4 { line-height: 1.3; }
-
-/* ===== Timeline ===== */
-.timeline-list { list-style: none; padding: 0; margin-top: 3rem; display: grid; gap: 0; }
-.timeline-list li { border-top: 1px solid var(--color-line); padding: 2rem 0; display: grid; grid-template-columns: 1fr 1.2fr 1.6fr; gap: 1.5rem; align-items: baseline; }
-.t-date { color: var(--color-accent); }
-.timeline-list p { color: var(--color-ink-soft); line-height: 1.55; }
 
 /* ===== FAQ ===== */
 .faq-list { margin-top: 2.5rem; }
@@ -292,6 +290,7 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
 /* ===== Footer ===== */
 .footer { padding: var(--space-section) var(--space-gutter) 3rem; display: flex; flex-direction: column; gap: 1.5rem; align-items: flex-start; margin-bottom: clamp(0.5rem, 1.5vw, 1.25rem); }
 .footer-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; opacity: 0.6; font-size: 0.85rem; margin-top: 2rem; }
+.footer-stack { color: var(--color-ink-soft); opacity: 0.5; }
 
 /* scan-text: left-to-right clip sweep with a trailing accent tint */
 [data-fx="scan-text"] { clip-path: inset(0 100% 0 0); }
@@ -316,8 +315,5 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
   .brand-word, .nav-cta { display: none; }
   .feature-stage { grid-template-columns: 1fr; align-content: center; }
   .stage-visual { height: 11rem; }
-  .timeline-list li { grid-template-columns: 1fr; gap: 0.5rem; }
-  .engagement-cards { grid-template-columns: 1fr; }
-  .d-card.wide { grid-column: span 1; }
-  .hero { min-height: 220vh; }
+  .hero { min-height: calc(var(--vvh) * 2.2); }
 }

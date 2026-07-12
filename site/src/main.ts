@@ -6,8 +6,14 @@ import { initHero3D } from "./hero3d";
 import { initStageFX } from "./stage3d";
 import { initProjects3D } from "./projects3d";
 import { initCursor, initMagnetic } from "./fx";
+import { initI18n, t } from "./i18n";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Runs first and synchronously: sets all [data-i18n*] text before the
+// preloader reveal or scramble effects read it, so nothing flashes in
+// the wrong language.
+initI18n();
 
 /* ---------- text effects ---------- */
 function scrambleText(el: HTMLElement, duration = 0.8) {
@@ -133,7 +139,7 @@ function initBrandSwap() {
   const brand = document.querySelector<HTMLElement>(".sigil-brand");
   if (!brand) return;
   const dark = getComputedStyle(document.documentElement).getPropertyValue("--color-ink").trim();
-  const sections = Array.from(document.querySelectorAll<HTMLElement>(".section-dark, .cta-banner, .feature-stage"));
+  const sections = Array.from(document.querySelectorAll<HTMLElement>(".section-dark, .feature-stage"));
   let ticking = false;
   function evaluate() {
     const r = brand!.getBoundingClientRect();
@@ -205,36 +211,17 @@ function initWaveBars() {
 }
 
 /* ---------- pinned feature stage: scroll-scrubbed morph ---------- */
-const STAGE_STEPS = [
-  {
-    name: "ai-systems",
-    title: "Turn a workflow into an AI engine",
-    text: "We build agents and pipelines around your real operations. Describe the process once — then watch it run itself. Automate the grind, keep the judgment calls.",
-    chips: ["OPS COPILOT", "SUPPORT AGENT", "DATA PIPELINE"],
-  },
-  {
-    name: "custom-software",
-    title: "Unlimited product, instantly scoped",
-    text: "Great software without hiring and firefighting a dev org — or full control if you want it. Web apps, platforms, internal tools: clean architecture, yours to keep.",
-    chips: ["WEB APPS", "PLATFORMS", "INTERNAL TOOLS"],
-  },
-  {
-    name: "product-design",
-    title: "Design that sells before it ships",
-    text: "Interfaces your customers actually enjoy — researched, prototyped, and tested. We design the journey first, so engineering builds the right thing once.",
-    chips: ["RESEARCH", "UX / UI", "MOTION"],
-  },
-  {
-    name: "launch-support",
-    title: "Keep it alive after launch",
-    text: "Monitoring, iteration, and growth features on a retainer that flexes with you. Your product keeps improving while you run the business.",
-    chips: ["MONITORING", "ITERATION", "GROWTH"],
-  },
-];
+type StageStep = { name: string; title: string; text: string; chips: string[] };
+
+function getStageSteps(): StageStep[] {
+  const steps = t("services.steps");
+  return Array.isArray(steps) ? (steps as StageStep[]) : [];
+}
 
 function initFeatureStage() {
   const wrap = document.querySelector<HTMLElement>(".feature-stage-wrap");
   if (!wrap) return;
+  const STAGE_STEPS = getStageSteps();
   const nums = Array.from(wrap.querySelectorAll<HTMLElement>(".stage-nums b"));
   const name = wrap.querySelector<HTMLElement>(".stage-name")!;
   const title = wrap.querySelector<HTMLElement>(".stage-title")!;

@@ -4,7 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Summonware — Software, Summoned. AI-Forward Custom Builds</title>
+    <script>
+      // Mobile address-bar fix: CSS `dvh` only recomputes at layout
+      // checkpoints, not on every frame of an active touch-drag, so the
+      // fixed viewport frame can visibly lag the real visible area while
+      // dragging. The Visual Viewport API's resize/scroll events (plus a
+      // touchmove-driven rAF poke) fire far more often, so we mirror its
+      // height into a --vvh custom property that CSS uses instead of dvh.
+      (function () {
+        var vv = window.visualViewport;
+        function setVVH() {
+          var h = vv ? vv.height : window.innerHeight;
+          document.documentElement.style.setProperty("--vvh", h + "px");
+        }
+        setVVH();
+        window.addEventListener("resize", setVVH);
+        window.addEventListener("orientationchange", setVVH);
+        if (vv) {
+          vv.addEventListener("resize", setVVH);
+          vv.addEventListener("scroll", setVVH);
+        }
+        // Throttled: touchmove fires many times per frame during an active
+        // drag. Without this guard, every event queues its own rAF call,
+        // stacking redundant work on top of three already-running WebGL
+        // render loops and contributing to visible stutter while dragging.
+        var vvhScheduled = false;
+        window.addEventListener("touchmove", function () {
+          if (vvhScheduled) return;
+          vvhScheduled = true;
+          requestAnimationFrame(function () { vvhScheduled = false; setVVH(); });
+        }, { passive: true });
+      })();
+    </script>
     <meta name="description" content="Summonware is an AI-forward software house. Tell us the outcome — we summon the product: custom software, AI systems, and design that ships." />
+    <!-- Language alternates: path-based locale routing (/ = en, /th/ = th)
+         so each language is a real, indexable URL rather than a JS-only
+         swap — update the domain once the real one is confirmed. -->
+    <link rel="alternate" hreflang="en" href="https://summonware.com/" />
+    <link rel="alternate" hreflang="th" href="https://summonware.com/th/" />
+    <link rel="alternate" hreflang="x-default" href="https://summonware.com/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
@@ -38,26 +76,30 @@
       </a>
       <button class="menu-pill" id="menu-toggle" aria-expanded="false">
         <span class="menu-lines"><i></i><i></i></span>
-        <span class="menu-label">Menu</span>
+        <span class="menu-label" data-i18n="nav.menu">Menu</span>
       </button>
       <div class="nav-right">
-        <a href="#start" class="btn-swoosh nav-cta"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Start a project&#8202;&#8202;+</span></a>
+        <div class="lang-switch" aria-label="Language">
+          <a href="/" data-lang-switch="en">EN</a>
+          <a href="/th/" data-lang-switch="th">TH</a>
+        </div>
+        <a href="#start" class="btn-swoosh nav-cta"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text" data-i18n="nav.startProject">Start a project&#8202;&#8202;+</span></a>
       </div>
     </header>
 
     <!-- ===== Menu overlay ===== -->
     <div class="menu-overlay" id="menu-overlay">
       <nav class="menu-links">
-        <a href="#services" data-menu-link>Services</a>
-        <a href="#capabilities" data-menu-link>Capabilities</a>
-        <a href="#timeline" data-menu-link>Process</a>
-        <a href="#faq" data-menu-link>FAQ</a>
+        <a href="#services" data-menu-link data-i18n="nav.services">Services</a>
+        <a href="#how-we-work" data-menu-link data-i18n="nav.howWeWork">How we work</a>
+        <a href="#trust" data-menu-link data-i18n="nav.trust">Trust &amp; compliance</a>
+        <a href="#faq" data-menu-link data-i18n="nav.faq">FAQ</a>
       </nav>
       <div class="menu-meta">
-        <span class="tag-mono">Other</span>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <span class="tag-mono">Social</span>
+        <span class="tag-mono" data-i18n="nav.other">Other</span>
+        <a href="#" data-i18n="nav.privacy">Privacy Policy</a>
+        <a href="#" data-i18n="nav.terms">Terms of Service</a>
+        <span class="tag-mono" data-i18n="nav.social">Social</span>
         <a href="#">LinkedIn</a>
         <a href="#">Instagram</a>
       </div>
@@ -68,10 +110,10 @@
       <section class="hero" data-track-section="02_hero">
         <div class="hero-canvas-wrap"><canvas id="scroll-canvas"></canvas></div>
         <div class="hero-copy">
-          <p class="hero-tag tag-mono" hero-tag><span class="tag-square"></span>AI–FORWARD SOFTWARE HOUSE</p>
-          <h1 class="hero-heading" hero-heading>Software that ships itself into <em>existence</em></h1>
-          <p class="hero-description" hero-description>Even one call is enough to start. Tell us the outcome you need — we summon the product: scoped, designed, and built with an AI-accelerated pipeline that never steals your quarter.</p>
-          <a href="#start" class="btn-swoosh hero-cta"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Book a free call</span></a>
+          <p class="hero-tag tag-mono" hero-tag><span class="tag-square"></span><span data-i18n="hero.tag">AI–FORWARD SOFTWARE HOUSE</span></p>
+          <h1 class="hero-heading" hero-heading data-i18n-html="hero.headingHtml">Software that ships itself into <em>existence</em></h1>
+          <p class="hero-description" hero-description data-i18n="hero.description">Even one call is enough to start. Tell us the outcome you need — we summon the product: scoped, designed, and built with an AI-accelerated pipeline that never steals your quarter.</p>
+          <a href="#start" class="btn-swoosh hero-cta"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text" data-i18n="hero.cta">Book a free call</span></a>
         </div>
         <div class="orbit-badge" aria-hidden="true">
           <svg viewBox="0 0 120 120">
@@ -82,21 +124,16 @@
         </div>
         <div class="hero-intro" id="intro-text">
           <div class="dashed-circle" aria-hidden="true"></div>
-          <p class="intro-line text-45">No dev team? <strong>Summonware</strong> gets your product built — even if all you have is an idea</p>
-          <p class="intro-sub">Scopes itself in days, looks right from the first screen, turns whatever you sketch into working software</p>
+          <p class="intro-line text-45" data-i18n-html="hero.introHtml">No dev team? <strong>Summonware</strong> gets your product built — even if all you have is an idea</p>
+          <p class="intro-sub" data-i18n="hero.introSub">Scopes itself in days, looks right from the first screen, turns whatever you sketch into working software</p>
         </div>
       </section>
 
       <!-- ===== 03 No overhead (dark) ===== -->
       <section id="no-overhead" class="no-overhead section-dark" data-track-section="03_no_overhead">
-        <h2 class="text-60" data-fx="scan-text" data-fx-color="light">No <span class="swap-word" data-words='["hiring","handoffs","bloat","hiring"]'>hiring</span></h2>
-        <p class="lead">Just bring the problem — we bring the team</p>
-        <p class="sub">Summonware shapes the scope, designs the experience, and turns your idea into a shipped product in weeks.</p>
-        <div class="context-pills">
-          <button class="pill is-active" data-context="startup">Launching a startup</button>
-          <button class="pill" data-context="scale">Scaling a business</button>
-          <button class="pill" data-context="enterprise">Modernizing an enterprise</button>
-        </div>
+        <h2 class="text-60" data-fx="scan-text" data-fx-color="light">No <span class="swap-word" data-i18n-words="promise.words" data-words='["hiring","handoffs","bloat"]'>hiring</span></h2>
+        <p class="lead" data-i18n="promise.lead">Just bring the problem — we bring the team</p>
+        <p class="sub" data-i18n="promise.sub">Summonware shapes the scope, designs the experience, and turns your idea into a shipped product in weeks.</p>
       </section>
 
       <!-- ===== 04 Features ===== -->
@@ -107,12 +144,14 @@
             <span>AI systems</span><span>•</span><span>Custom software</span><span>•</span><span>Product design</span><span>•</span><span>Launch support</span><span>•</span>
           </div>
         </div>
-        <p class="tag-mono section-tag"><span class="tag-square"></span>services</p>
-        <h2 class="text-60" data-fx="scan-text">Your business, <em>upgraded</em></h2>
-        <p class="features-sub">Summonware isn't a single service. It's a complete system built around how you actually operate.</p>
+        <p class="tag-mono section-tag"><span class="tag-square"></span><span data-i18n="services.tag">services</span></p>
+        <h2 class="text-60" data-fx="scan-text" data-i18n-html="services.headingHtml">Your business, <em>upgraded</em></h2>
+        <p class="features-sub" data-i18n="services.sub">Summonware isn't a single service. It's a complete system built around how you actually operate.</p>
 
         <!-- Pinned stage: scroll scrubs through the 4 services; the
-             shape panel morphs and the copy wipes between steps. -->
+             shape panel morphs and the copy wipes between steps. Content
+             is rendered from src/i18n/*.json (services.steps) by
+             initFeatureStage() in main.ts, not this static markup. -->
         <div class="feature-stage-wrap">
           <div class="feature-stage">
             <div class="stage-copy">
@@ -132,131 +171,121 @@
         </div>
       </section>
 
-      <!-- ===== 04b Projects showcase (placeholder data, format is canonical) ===== -->
+      <!-- ===== 04b Projects showcase ===== -->
       <section id="projects" class="projects" data-track-section="04b_projects">
-        <p class="tag-mono section-tag"><span class="tag-square"></span>selected work</p>
-        <h2 class="text-60" data-fx="scan-text">Things we've <em>summoned</em></h2>
+        <p class="tag-mono section-tag"><span class="tag-square"></span><span data-i18n="projects.tag">selected work</span></p>
+        <h2 class="text-60" data-fx="scan-text" data-i18n-html="projects.headingHtml">Things we've <em>summoned</em></h2>
         <div class="carousel-wrap">
           <canvas id="projects-canvas"></canvas>
-          <p class="drag-hint tag-mono"><span class="drag-arrow">←</span> drag to explore <span class="drag-arrow">→</span></p>
+          <p class="drag-hint tag-mono"><span class="drag-arrow">←</span> <span data-i18n="projects.swipeHint">swipe to explore</span> <span class="drag-arrow">→</span></p>
         </div>
         <div class="project-detail" id="project-detail"><!-- active project info --></div>
       </section>
 
-      <!-- ===== 05 Remote or embedded (dark) ===== -->
-      <section id="engagement" class="engagement section-dark" data-track-section="05_engagement">
-        <h2 class="text-60 center" data-fx="scan-text" data-fx-color="light">Remote or embedded — your choice</h2>
-        <p class="center sub-wide">Async from our studio, or inside your team — wherever the work flows best. We plug into your tools, your rituals, your repo. Prefer a fixed scope? Project mode is always there when you need it.</p>
-        <div class="engagement-cards">
-          <div class="e-card"><h4>Studio mode</h4><p>Full delivery by our team. Weekly demos, one point of contact.</p></div>
-          <div class="e-card"><h4>Embedded mode</h4><p>Our engineers inside your standups, your codebase, your velocity.</p></div>
+      <!-- ===== 05 Trust & compliance (dark) — added for regulated-sector
+           buyers (SMEs, government, banks). All factual claims here are
+           marked PLACEHOLDER in the CMS copy and must be confirmed true
+           before publishing (PDPA compliance, hosting location, etc). ===== -->
+      <section id="trust" class="trust section-dark section-view" data-track-section="05_trust">
+        <p class="tag-mono section-tag light"><span class="tag-square"></span><span data-i18n="trust.tag">trust & compliance</span></p>
+        <h2 class="text-60" data-fx="scan-text" data-fx-color="light" data-i18n-html="trust.headingHtml">Ready for <em>regulated procurement</em></h2>
+        <p class="trust-sub" data-i18n="trust.sub">Built to pass security review, not just sprint review.</p>
+        <div class="trust-grid">
+          <article class="trust-card">
+            <h4 data-i18n="trust.cards.0.title">Data handled under PDPA</h4>
+            <p data-i18n="trust.cards.0.body">Every project follows Thailand's Personal Data Protection Act from day one — data minimization, consent handling, and access logging built in, not bolted on.</p>
+          </article>
+          <article class="trust-card">
+            <h4 data-i18n="trust.cards.1.title">In-country hosting available</h4>
+            <p data-i18n="trust.cards.1.body">Deploy on Thailand-based infrastructure when data residency is a requirement, not a preference.</p>
+          </article>
+          <article class="trust-card">
+            <h4 data-i18n="trust.cards.2.title">Security-reviewed delivery</h4>
+            <p data-i18n="trust.cards.2.body">Every line ships through senior review, static analysis, and dependency audits before it reaches your repo.</p>
+          </article>
+          <article class="trust-card">
+            <h4 data-i18n="trust.cards.3.title">Formal engagement, your terms</h4>
+            <p data-i18n="trust.cards.3.body">NDA, SOW, fixed-price or time-and-materials — we work inside your procurement process, not around it.</p>
+          </article>
+        </div>
+        <p class="trust-note tag-mono" data-i18n="trust.note">PLACEHOLDER — confirm each claim above is accurate before publishing.</p>
+      </section>
+
+      <!-- ===== 06 How we work (dark) ===== -->
+      <section id="how-we-work" class="how-we-work section-dark section-view" data-track-section="06_how_we_work">
+        <p class="tag-mono section-tag light"><span class="tag-square"></span><span data-i18n="howWeWork.tag">how we work</span></p>
+        <h2 class="text-60" data-fx="scan-text" data-fx-color="light" data-i18n-html="howWeWork.headingHtml">Built around <em>how you grow</em></h2>
+        <div class="work-cards">
+          <article class="work-card">
+            <h4 data-i18n="howWeWork.cards.0.title">Launching a startup</h4>
+            <p class="work-mode tag-mono" data-i18n="howWeWork.cards.0.mode">STUDIO MODE</p>
+            <p class="work-lead" data-i18n="howWeWork.cards.0.lead">Idea → Summonware → MVP in market. Done.</p>
+            <ul class="work-specs">
+              <li data-i18n="howWeWork.cards.0.specs.0">Senior-only team — no juniors on your bill</li>
+              <li data-i18n="howWeWork.cards.0.specs.1">AI-native pipeline on every task</li>
+            </ul>
+          </article>
+          <article class="work-card">
+            <h4 data-i18n="howWeWork.cards.1.title">Scaling a business</h4>
+            <p class="work-mode tag-mono" data-i18n="howWeWork.cards.1.mode">EMBEDDED MODE</p>
+            <p class="work-lead" data-i18n="howWeWork.cards.1.lead">A senior team on tap while you grow revenue, not headcount.</p>
+            <ul class="work-specs">
+              <li data-i18n="howWeWork.cards.1.specs.0">Our engineers inside your standups and repo</li>
+              <li data-i18n="howWeWork.cards.1.specs.1">&lt; 24h response, one point of contact</li>
+            </ul>
+          </article>
+          <article class="work-card">
+            <h4 data-i18n="howWeWork.cards.2.title">Public sector &amp; regulated enterprise</h4>
+            <p class="work-mode tag-mono" data-i18n="howWeWork.cards.2.mode">STUDIO OR EMBEDDED</p>
+            <p class="work-lead" data-i18n="howWeWork.cards.2.lead">We work inside your procurement and compliance process — not around it.</p>
+            <ul class="work-specs">
+              <li data-i18n="howWeWork.cards.2.specs.0">Fixed-scope proposals for RFPs</li>
+              <li data-i18n="howWeWork.cards.2.specs.1">Security review and PDPA-aligned handling by default</li>
+            </ul>
+          </article>
         </div>
       </section>
 
-      <!-- ===== 06 One team ===== -->
-      <section id="one-team" class="one-team section-dark section-view" data-track-section="06_one_team">
-        <h2 class="text-60" data-fx="scan-text" data-fx-color="light">And all this in one small team</h2>
-        <ul class="spec-chips">
-          <li><span class="tag-mono">SENIOR ONLY</span> no juniors on your bill</li>
-          <li><span class="tag-mono">&lt; 24 H</span> response time</li>
-          <li><span class="tag-mono">AI-NATIVE</span> pipeline on every task</li>
-          <li><span class="tag-mono">1 CONTACT</span> zero account-manager relay</li>
-        </ul>
-      </section>
-
-      <!-- ===== 07 CTA banner ===== -->
-      <section class="cta-banner" data-track-section="07_cta_banner">
-        <h3 class="text-30" data-fx="scan-text" data-fx-color="light">Start your project now</h3>
-        <a href="#start" class="btn-swoosh invert"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Book a free call</span></a>
-      </section>
-
-      <!-- ===== 08 Use cases ===== -->
-      <section class="use-cases" data-track-section="08_use_cases">
-        <div class="uc-card">
-          <h4>Launching a startup</h4>
-          <p class="tag-mono">1 idea. 1 mission:</p>
-          <p>Idea → Summonware → MVP in market. Done.</p>
-        </div>
-        <div class="uc-card">
-          <h4>Scaling a business</h4>
-          <p class="tag-mono">Ship features, not job posts:</p>
-          <p>A senior team on tap while you grow revenue, not headcount.</p>
-        </div>
-        <div class="uc-card">
-          <h4>Modernizing an enterprise</h4>
-          <p class="tag-mono">Legacy-to-modern, no drama:</p>
-          <p>We migrate the system while it keeps running. No setup, no downtime.</p>
-        </div>
-      </section>
-
-      <!-- ===== 09 Start form (dark) ===== -->
-      <section id="start" class="start section-dark section-view" data-track-section="09_start">
-        <p class="tag-mono section-tag light"><span class="tag-square"></span>start with summonware</p>
-        <h2 class="text-45" data-fx="scan-text" data-fx-color="light">Join the next build slot</h2>
-        <p class="start-copy">A free discovery call to scope it. <strong>Fixed quote in 5 days.</strong> Book the call and we map your idea to a plan: milestones, budget, and the first demo date. The call just holds your slot — no commitment until you see the plan.</p>
-        <p class="slots tag-mono"><strong id="slots-left">3</strong>/5 build slots left this quarter</p>
+      <!-- ===== 07 Start / request a proposal (dark) ===== -->
+      <section id="start" class="start section-dark section-view" data-track-section="07_start">
+        <p class="tag-mono section-tag light"><span class="tag-square"></span><span data-i18n="start.tag">start with summonware</span></p>
+        <h2 class="text-45" data-fx="scan-text" data-fx-color="light" data-i18n-html="start.headingHtml">Request a <em>proposal</em></h2>
+        <p class="start-copy" data-i18n-html="start.copy">A formal discovery call to scope it. <strong>Fixed proposal within 5 business days.</strong> We work inside your procurement process — NDA available on request, no commitment until you see the plan.</p>
         <form class="start-form" id="start-form">
-          <input type="text" name="name" placeholder="Your name" required />
-          <input type="email" name="email" placeholder="Work email" required />
-          <textarea name="idea" placeholder="What should we summon?" rows="3"></textarea>
-          <button type="submit" class="btn-swoosh"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Reserve a slot</span></button>
+          <input type="text" name="name" data-i18n-placeholder="start.nameLabel" placeholder="Your name" required />
+          <input type="text" name="organization" data-i18n-placeholder="start.orgLabel" placeholder="Organization" />
+          <input type="email" name="email" data-i18n-placeholder="start.emailLabel" placeholder="Work email" required />
+          <textarea name="idea" data-i18n-placeholder="start.ideaLabel" placeholder="What should we summon?" rows="3"></textarea>
+          <button type="submit" class="btn-swoosh"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text" data-i18n="start.submit">Request a proposal</span></button>
         </form>
-        <p class="form-success" hidden>You're in! Your slot is reserved in your name. Early movers ship first — and you just did. We'll reach out within a day to book the call.</p>
+        <p class="form-success" hidden data-i18n="start.success">Thank you — your request is in. We'll follow up within one business day to schedule the discovery call.</p>
       </section>
 
-      <!-- ===== 10 Capabilities in depth ===== -->
-      <section id="capabilities" class="in-depth" data-track-section="10_in_depth">
-        <p class="tag-mono section-tag"><span class="tag-square"></span>summonware's capabilities</p>
-        <h2 class="text-60" data-fx="scan-text">Summonware in depth</h2>
-        <div class="depth-grid">
-          <div class="d-card wide"><span class="tag-mono">stack</span><h4>TypeScript · Python · React · Three.js · Claude API</h4><p>Modern web and AI stack, production-hardened. No legacy lock-in, no framework roulette.</p></div>
-          <div class="d-card"><strong>2 wks</strong><span>to first working demo</span></div>
-          <div class="d-card"><strong>48 h</strong><span>fix SLA in support mode</span></div>
-          <div class="d-card"><span class="tag-mono">ai engineering</span><p>Agents, RAG, evals, fine-tuning. Every generation measured, every cost tracked.</p></div>
-          <div class="d-card"><span class="tag-mono">design</span><p>Research, UX, UI, motion — the whole journey before a line of code.</p></div>
-          <div class="d-card"><span class="tag-mono">cloud</span><p>AWS / GCP / Vercel. CI/CD from day one, always deployable.</p></div>
-          <div class="d-card"><span class="tag-mono">integrations</span><p>Always connected: your CRM, ERP, Slack, payments, and more.</p></div>
-          <div class="d-card"><span class="tag-mono">any codebase</span><p>Greenfield Next.js or a 10-year-old monolith — we adapt to your stack.</p></div>
-          <div class="d-card"><span class="tag-mono">security</span><p>Ready for daily use by pros: reviews, audits, least-privilege by default.</p></div>
-        </div>
-      </section>
-
-      <!-- ===== 11 Timeline ===== -->
-      <section id="timeline" class="timeline" data-track-section="11_timeline">
-        <h2 class="text-60" data-fx="scan-text">How a build unfolds</h2>
-        <ol class="timeline-list">
-          <li><span class="tag-mono t-date">week 0 — kickoff</span><h3 class="text-30" data-fx="scan-text">Discovery call</h3><p>We map the outcome. You get a plan, a budget, and a demo date.</p></li>
-          <li><span class="tag-mono t-date">week 1</span><h3 class="text-30" data-fx="scan-text" data-fx-delay="0.3">Design sprint</h3><p>The product is visible. Still clickable mockups, but everything flows.</p></li>
-          <li><span class="tag-mono t-date">week 2–6</span><h3 class="text-30" data-fx="scan-text" data-fx-delay="0.6">Build loop</h3><p>The product is real. Weekly demos, and we're using it every day.</p></li>
-          <li><span class="tag-mono t-date">launch — the goal!</span><h3 class="text-30" data-fx="scan-text" data-fx-delay="0.9">Ship to the world</h3><p>Ready to offer your product to everyone 🔮</p></li>
-          <li><span class="tag-mono t-date">ongoing</span><h3 class="text-30" data-fx="scan-text">Grow &amp; support</h3><p>Iterations shipped by a team you already know and trust.</p></li>
-        </ol>
-      </section>
-
-      <!-- ===== 12 FAQ ===== -->
-      <section id="faq" class="faq" data-track-section="12_faq">
-        <h2 class="text-60" data-fx="scan-text">FAQ</h2>
+      <!-- ===== 08 FAQ ===== -->
+      <section id="faq" class="faq" data-track-section="08_faq">
+        <h2 class="text-60" data-fx="scan-text" data-i18n="faq.heading">FAQ</h2>
         <div class="faq-list">
-          <details><summary>What is Summonware?</summary><p>An AI-forward software house. We replace your need for an agency, a dev team, a design studio, and an AI consultancy — one partner that takes an idea to a shipped product with pro-level quality and AI-accelerated delivery built in.</p></details>
-          <details><summary>Who is Summonware for?</summary><p>Anyone with a product to build. Whether the idea has been on your whiteboard for months or you ship every week — we make building faster, calmer, and more creative. Bring the idea; we handle the setup hassle.</p></details>
-          <details><summary>How is this different from a regular agency?</summary><p>Most agencies just execute tickets. Summonware also scopes the product, designs the journey, wires in AI where it earns its keep, and stays for launch and growth. And it all comes from one senior team.</p></details>
-          <details><summary>How does the AI-accelerated pipeline work?</summary><p>Every task runs through our internal tooling built on frontier models — code generation, review, test synthesis, and docs. Humans make the calls; the pipeline removes the grind. You get senior output at roughly twice the pace.</p></details>
-          <details><summary>What's the turnaround?</summary><p>First working demo in about two weeks including scoping and design. The discovery-to-quote step itself is around five days — most founders tell us that's faster than their last team's sprint planning.</p></details>
-          <details><summary>Will the AI affect my code quality?</summary><p>Unreviewed AI code tends to be verbose and brittle — so ours never ships unreviewed. Every line passes senior review, tests, and static analysis before it reaches your repo.</p></details>
+          <details><summary data-i18n="faq.items.0.q">What is Summonware?</summary><p data-i18n="faq.items.0.a">An AI-forward software house. We replace your need for an agency, a dev team, a design studio, and an AI consultancy — one partner that takes an idea to a shipped product with pro-level quality and AI-accelerated delivery built in.</p></details>
+          <details><summary data-i18n="faq.items.1.q">Who is Summonware for?</summary><p data-i18n="faq.items.1.a">Anyone with a product to build — from startups to SMEs to regulated enterprises and public-sector teams. We adapt the engagement to your process, whether that's a quick MVP or a formal RFP.</p></details>
+          <details><summary data-i18n="faq.items.2.q">How is this different from a regular agency?</summary><p data-i18n="faq.items.2.a">Most agencies just execute tickets. Summonware also scopes the product, designs the journey, wires in AI where it earns its keep, and stays for launch and growth. And it all comes from one senior team.</p></details>
+          <details><summary data-i18n="faq.items.3.q">How does the AI-accelerated pipeline work?</summary><p data-i18n="faq.items.3.a">Every task runs through our internal tooling built on frontier models — code generation, review, test synthesis, and docs. Humans make the calls; the pipeline removes the grind. You get senior output at roughly twice the pace.</p></details>
+          <details><summary data-i18n="faq.items.4.q">What's the turnaround?</summary><p data-i18n="faq.items.4.a">First working demo in about two weeks including scoping and design. The discovery-to-proposal step itself is around five business days.</p></details>
+          <details><summary data-i18n="faq.items.5.q">Will the AI affect my code quality or compliance posture?</summary><p data-i18n="faq.items.5.a">Unreviewed AI code tends to be verbose and brittle — so ours never ships unreviewed. Every line passes senior review, tests, and static analysis before it reaches your repo, the same standard we'd expect for a regulated client.</p></details>
         </div>
       </section>
     </main>
 
     <!-- ===== Footer ===== -->
     <footer class="footer section-dark">
-      <p class="tag-mono">contact us</p>
-      <h2 class="text-60">Any questions?</h2>
-      <a class="btn-swoosh" href="mailto:hello@summonware.com"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text">Ask us anything</span></a>
+      <p class="tag-mono" data-i18n="footer.tag">contact us</p>
+      <h2 class="text-60" data-i18n="footer.heading">Any questions?</h2>
+      <a class="btn-swoosh" href="mailto:hello@summonware.com"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text" data-i18n="footer.cta">Ask us anything</span></a>
       <div class="footer-ghost" aria-hidden="true">Summonware</div>
       <div class="footer-meta">
         <span>© 2026 Summonware</span>
-        <a href="#">terms</a><a href="#">privacy policy</a><a href="#">linkedin</a>
+        <a href="#" data-i18n="footer.terms">terms</a><a href="#" data-i18n="footer.privacy">privacy policy</a><a href="#">linkedin</a>
       </div>
+      <p class="footer-stack tag-mono" data-i18n="footer.stack">stack — typescript · python · react · three.js · claude api</p>
     </footer>
 
     <script type="module" src="/src/main.ts"></script>

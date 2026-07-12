@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "title": "Summonware — Software, Summoned. AI-Forward Custom Builds",
+    "description": "Summonware is an AI-forward software house. Tell us the outcome — we summon the product: custom software, AI systems, and design that ships."
+  },
+  "nav": {
+    "services": "Services",
+    "howWeWork": "How we work",
+    "trust": "Trust & compliance",
+    "faq": "FAQ",
+    "menu": "Menu",
+    "startProject": "Start a project",
+    "other": "Other",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "social": "Social"
+  },
+  "hero": {
+    "tag": "AI–FORWARD SOFTWARE HOUSE",
+    "headingHtml": "Software that ships itself into <em>existence</em>",
+    "description": "Even one call is enough to start. Tell us the outcome you need — we summon the product: scoped, designed, and built with an AI-accelerated pipeline that never steals your quarter.",
+    "cta": "Book a free call",
+    "introHtml": "No dev team? <strong>Summonware</strong> gets your product built — even if all you have is an idea",
+    "introSub": "Scopes itself in days, looks right from the first screen, turns whatever you sketch into working software"
+  },
+  "promise": {
+    "words": ["hiring", "handoffs", "bloat"],
+    "lead": "Just bring the problem — we bring the team",
+    "sub": "Summonware shapes the scope, designs the experience, and turns your idea into a shipped product in weeks."
+  },
+  "services": {
+    "marquee": ["AI systems", "Custom software", "Product design", "Launch support"],
+    "tag": "services",
+    "headingHtml": "Your business, <em>upgraded</em>",
+    "sub": "Summonware isn't a single service. It's a complete system built around how you actually operate.",
+    "steps": [
+      {
+        "name": "ai-systems",
+        "title": "Turn a workflow into an AI engine",
+        "text": "We build agents and pipelines around your real operations. Describe the process once — then watch it run itself. Automate the grind, keep the judgment calls.",
+        "chips": ["OPS COPILOT", "SUPPORT AGENT", "DATA PIPELINE"]
+      },
+      {
+        "name": "custom-software",
+        "title": "Unlimited product, instantly scoped",
+        "text": "Great software without hiring and firefighting a dev org — or full control if you want it. Web apps, platforms, internal tools: clean architecture, yours to keep.",
+        "chips": ["WEB APPS", "PLATFORMS", "INTERNAL TOOLS"]
+      },
+      {
+        "name": "product-design",
+        "title": "Design that sells before it ships",
+        "text": "Interfaces your customers actually enjoy — researched, prototyped, and tested. We design the journey first, so engineering builds the right thing once.",
+        "chips": ["RESEARCH", "UX / UI", "MOTION"]
+      },
+      {
+        "name": "launch-support",
+        "title": "Keep it alive after launch",
+        "text": "Monitoring, iteration, and growth features on a retainer that flexes with you. Your product keeps improving while you run the business.",
+        "chips": ["MONITORING", "ITERATION", "GROWTH"]
+      }
+    ]
+  },
+  "projects": {
+    "tag": "selected work",
+    "headingHtml": "Things we've <em>summoned</em>",
+    "swipeHint": "swipe to explore"
+  },
+  "trust": {
+    "tag": "trust & compliance",
+    "headingHtml": "Ready for <em>regulated procurement</em>",
+    "sub": "Built to pass security review, not just sprint review.",
+    "note": "PLACEHOLDER — confirm each claim below is accurate before publishing. These describe process commitments, not certifications we currently hold unless stated.",
+    "cards": [
+      {
+        "title": "Data handled under PDPA",
+        "body": "Every project follows Thailand's Personal Data Protection Act from day one — data minimization, consent handling, and access logging built in, not bolted on."
+      },
+      {
+        "title": "In-country hosting available",
+        "body": "Deploy on Thailand-based infrastructure when data residency is a requirement, not a preference."
+      },
+      {
+        "title": "Security-reviewed delivery",
+        "body": "Every line ships through senior review, static analysis, and dependency audits before it reaches your repo."
+      },
+      {
+        "title": "Formal engagement, your terms",
+        "body": "NDA, SOW, fixed-price or time-and-materials — we work inside your procurement process, not around it."
+      }
+    ]
+  },
+  "howWeWork": {
+    "tag": "how we work",
+    "headingHtml": "Built around <em>how you grow</em>",
+    "cards": [
+      {
+        "title": "Launching a startup",
+        "mode": "STUDIO MODE",
+        "lead": "Idea → Summonware → MVP in market. Done.",
+        "specs": ["Senior-only team — no juniors on your bill", "AI-native pipeline on every task"]
+      },
+      {
+        "title": "Scaling a business",
+        "mode": "EMBEDDED MODE",
+        "lead": "A senior team on tap while you grow revenue, not headcount.",
+        "specs": ["Our engineers inside your standups and repo", "< 24h response, one point of contact"]
+      },
+      {
+        "title": "Public sector & regulated enterprise",
+        "mode": "STUDIO OR EMBEDDED",
+        "lead": "We work inside your procurement and compliance process — not around it.",
+        "specs": ["Fixed-scope proposals for RFPs", "Security review and PDPA-aligned handling by default"]
+      }
+    ]
+  },
+  "start": {
+    "tag": "start with summonware",
+    "headingHtml": "Request a <em>proposal</em>",
+    "copy": "A formal discovery call to scope it. <strong>Fixed proposal within 5 business days.</strong> We work inside your procurement process — NDA available on request, no commitment until you see the plan.",
+    "nameLabel": "Your name",
+    "orgLabel": "Organization",
+    "emailLabel": "Work email",
+    "ideaLabel": "What should we summon?",
+    "submit": "Request a proposal",
+    "success": "Thank you — your request is in. We'll follow up within one business day to schedule the discovery call."
+  },
+  "faq": {
+    "heading": "FAQ",
+    "items": [
+      {
+        "q": "What is Summonware?",
+        "a": "An AI-forward software house. We replace your need for an agency, a dev team, a design studio, and an AI consultancy — one partner that takes an idea to a shipped product with pro-level quality and AI-accelerated delivery built in."
+      },
+      {
+        "q": "Who is Summonware for?",
+        "a": "Anyone with a product to build — from startups to SMEs to regulated enterprises and public-sector teams. We adapt the engagement to your process, whether that's a quick MVP or a formal RFP."
+      },
+      {
+        "q": "How is this different from a regular agency?",
+        "a": "Most agencies just execute tickets. Summonware also scopes the product, designs the journey, wires in AI where it earns its keep, and stays for launch and growth. And it all comes from one senior team."
+      },
+      {
+        "q": "How does the AI-accelerated pipeline work?",
+        "a": "Every task runs through our internal tooling built on frontier models — code generation, review, test synthesis, and docs. Humans make the calls; the pipeline removes the grind. You get senior output at roughly twice the pace."
+      },
+      {
+        "q": "What's the turnaround?",
+        "a": "First working demo in about two weeks including scoping and design. The discovery-to-proposal step itself is around five business days."
+      },
+      {
+        "q": "Will the AI affect my code quality or compliance posture?",
+        "a": "Unreviewed AI code tends to be verbose and brittle — so ours never ships unreviewed. Every line passes senior review, tests, and static analysis before it reaches your repo, the same standard we'd expect for a regulated client."
+      }
+    ]
+  },
+  "footer": {
+    "tag": "contact us",
+    "heading": "Any questions?",
+    "cta": "Ask us anything",
+    "terms": "terms",
+    "privacy": "privacy policy",
+    "linkedin": "linkedin",
+    "stack": "stack — typescript · python · react · three.js · claude api"
+  }
+}
