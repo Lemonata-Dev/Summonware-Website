@@ -1,0 +1,44 @@
+/* Summonware design tokens — single source of truth for visual values */
+:root {
+  /* Color */
+  --color-ink: #24282b;
+  --color-ink-soft: #4a5055;
+  --color-accent: #fc5d20;
+  --color-accent-deep: #e63d00;
+  --color-bg: #f2f3f4;
+  --color-bg-2: #e8eaec;
+  --color-dark: #1b1e20;
+  --color-dark-2: #24282b;
+  --color-white: #ffffff;
+  --color-line: rgba(36, 40, 43, 0.12);
+  --color-line-light: rgba(255, 255, 255, 0.14);
+
+  /* Type */
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body: "Archivo", system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+
+  --text-hero: clamp(2.6rem, 7.2vw, 6.4rem);
+  --text-60: clamp(2rem, 4.6vw, 3.75rem);
+  --text-45: clamp(1.6rem, 3.4vw, 2.8rem);
+  --text-30: clamp(1.25rem, 2.2vw, 1.875rem);
+  --text-body: 1.06rem;
+  --text-tag: 0.78rem;
+
+  /* Spacing */
+  --space-section: clamp(5rem, 12vw, 10rem);
+  --space-gutter: clamp(1.25rem, 4vw, 4rem);
+  --radius-card: 1.5rem;
+  --radius-pill: 999px;
+  --frame-pad: 0.65rem;
+  --frame-radius: 1rem;
+  /* JS (index.html head script) overwrites this with the live Visual
+     Viewport height in px on mobile, tracking the address bar in real
+     time. This dvh value is the pre-JS / desktop fallback. */
+  --vvh: 100dvh;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 0.35s;
+  --dur-med: 0.8s;
+}

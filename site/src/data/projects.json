@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Ecommerce Customer Data Platform",
+    "type": "Data platform",
+    "year": "2026",
+    "blurb": "Unifies customer data across every storefront and channel into one profile — AI-scored, always current, ready for marketing and support to act on.",
+    "tags": ["AI systems", "Ecommerce", "Data"],
+    "hue": "orange",
+    "kind": "ecommerce-cdp"
+  },
+  {
+    "name": "OCR Ingestion & Auto-Action",
+    "type": "Document automation",
+    "year": "2026",
+    "blurb": "Scans incoming documents, extracts the data with OCR, and automatically triggers the right downstream action — no manual re-entry, no waiting.",
+    "tags": ["AI systems", "OCR", "Automation"],
+    "hue": "dark",
+    "kind": "ocr-action"
+  },
+  {
+    "name": "IT Security Hardening",
+    "type": "Infrastructure",
+    "year": "2025",
+    "blurb": "Audits, patches, and locks down your stack — least-privilege access, dependency hygiene, and monitoring that catches problems before they're incidents.",
+    "tags": ["Security", "Infrastructure"],
+    "hue": "light",
+    "kind": "security"
+  },
+  {
+    "name": "Microsoft Solutions",
+    "type": "Systems integration",
+    "year": "2025",
+    "blurb": "Builds and connects across the Microsoft ecosystem — Power Platform, 365, and Azure — so your existing tools finally work together.",
+    "tags": ["Microsoft", "Integrations"],
+    "hue": "dark",
+    "kind": "microsoft"
+  },
+  {
+    "name": "IoT Device Network",
+    "type": "Connected hardware",
+    "year": "2025",
+    "blurb": "Connects sensors and devices into one monitored network — real-time telemetry, alerts, and a dashboard that makes the fleet legible.",
+    "tags": ["IoT", "Edge", "Hardware"],
+    "hue": "orange",
+    "kind": "iot"
+  }
+]
