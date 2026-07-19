@@ -45,33 +45,102 @@
     <link rel="alternate" hreflang="x-default" href="https://summonware.com/" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <!-- Archivo loaded as a variable font (wght 100..900, not fixed steps)
+         so the hero headline's per-letter cursor-proximity effect can
+         interpolate real weight, not just swap between static cuts. -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/src/styles/tokens.css" />
     <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
   <body>
+    <!-- Shared logo mark, defined once and referenced via <use> everywhere
+         it appears (preloader, nav brand) — traced from the founder's
+         raster export (docs/brand-assets/logo-source-raster.svg) into a
+         real vector so it can recolor via currentColor like the old
+         sigil did, instead of staying a fixed-color 2.6MB embedded PNG. -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
+      <symbol id="logo-mark" viewBox="0 0 1082 1106" fill="currentColor">
+        <g transform="translate(0,1106) scale(0.1,-0.1)">
+          <path d="M3729 10482 c-51 -24 -79 -49 -126 -112 -48 -64 -71 -113 -112 -236
+-53 -162 -95 -355 -111 -512 -5 -57 -12 -108 -15 -112 -10 -15 -5 -610 5 -698
+5 -48 14 -134 20 -192 24 -235 76 -525 119 -665 5 -16 12 -46 16 -65 3 -19 10
+-46 15 -60 5 -14 16 -52 25 -85 28 -101 99 -321 115 -360 4 -11 20 -53 34 -94
+30 -82 29 -83 -31 -118 -18 -10 -119 -73 -225 -139 -106 -67 -207 -130 -225
+-140 -113 -67 -681 -417 -743 -457 -41 -27 -100 -66 -130 -86 -97 -63 -214
+-158 -260 -209 -125 -140 -174 -251 -240 -547 -6 -27 -15 -59 -20 -70 -9 -22
+-40 -152 -105 -445 -9 -41 -36 -155 -61 -253 -24 -98 -44 -187 -44 -198 0 -10
+-4 -27 -10 -37 -5 -9 -14 -42 -19 -72 -10 -55 -26 -125 -55 -250 -8 -36 -23
+-96 -32 -135 -17 -76 -24 -105 -49 -205 -9 -36 -22 -94 -30 -130 -8 -36 -21
+-96 -30 -135 -8 -38 -20 -88 -25 -110 -4 -22 -18 -74 -29 -115 -39 -149 -51
+-225 -51 -342 0 -132 8 -177 53 -293 62 -163 171 -306 305 -402 110 -79 259
+-173 602 -380 305 -183 249 -150 455 -276 94 -58 314 -192 490 -299 764 -465
+825 -501 950 -553 22 -9 47 -20 55 -24 14 -7 110 -37 200 -61 149 -42 403 -59
+847 -60 383 0 557 15 783 70 25 5 54 14 65 19 11 5 43 17 70 26 28 10 73 29
+100 42 39 20 742 444 850 513 12 8 144 89 291 179 148 90 294 181 324 201 30
+20 62 40 70 44 24 11 53 29 87 54 17 12 34 22 37 22 3 0 36 19 74 43 37 23 77
+47 88 54 301 184 513 317 569 358 205 152 341 381 363 610 14 141 6 235 -31
+390 -17 68 -37 160 -73 325 -32 143 -50 227 -70 310 -8 36 -19 90 -25 120 -5
+30 -13 66 -18 80 -5 14 -17 61 -26 105 -9 44 -22 107 -30 140 -7 33 -20 96
+-29 140 -9 44 -21 100 -26 125 -18 86 -62 282 -80 350 -5 19 -18 80 -30 135
+-12 55 -25 116 -30 135 -5 19 -30 125 -55 235 -70 298 -94 363 -185 485 -98
+132 -167 184 -605 450 -137 84 -320 196 -405 249 -187 116 -191 118 -210 127
+-26 13 -555 335 -563 343 -7 7 12 66 47 146 7 17 21 53 31 80 9 28 20 57 25
+65 4 9 11 30 14 48 4 17 12 35 17 38 6 3 36 -18 67 -48 70 -66 156 -132 242
+-184 142 -86 205 -107 325 -107 96 -1 139 12 202 60 156 119 259 485 224 797
+-13 116 -26 159 -84 276 -33 69 -59 103 -132 176 -154 155 -309 223 -630 276
+-102 17 -380 17 -465 0 -154 -31 -277 -71 -363 -118 -15 -9 -38 -21 -50 -28
+-191 -104 -406 -347 -528 -596 -29 -59 -95 -207 -130 -287 l-14 -33 -137 0
+c-178 0 -284 -20 -421 -79 -27 -12 -54 -21 -60 -21 -9 0 -11 67 -9 261 3 263
+-7 449 -32 634 -28 194 -75 429 -115 565 -6 19 -17 60 -25 90 -28 108 -141
+433 -186 535 -5 11 -19 43 -30 70 -72 167 -169 340 -265 470 -117 158 -225
+214 -326 167z m1533 -2888 c3 -3 -1 -26 -9 -52 -111 -349 -199 -826 -228
+-1228 l-7 -91 36 -36 c20 -20 84 -65 143 -100 60 -35 167 -100 239 -144 72
+-45 155 -89 185 -98 52 -16 56 -16 101 4 38 16 59 36 107 101 48 65 138 200
+191 290 129 215 179 306 301 545 73 145 111 210 122 209 8 -1 220 -126 471
+-278 250 -152 465 -282 478 -289 13 -7 34 -19 48 -28 31 -20 266 -158 294
+-173 117 -64 195 -142 236 -233 26 -60 27 -165 2 -222 -32 -70 -109 -160 -170
+-198 -31 -19 -181 -111 -332 -203 -438 -269 -832 -512 -1010 -625 -91 -57
+-172 -107 -180 -111 -8 -4 -22 -13 -30 -19 -25 -21 -523 -320 -560 -336 -200
+-90 -476 -121 -695 -80 -192 37 -249 60 -465 189 -64 37 -122 71 -130 75 -8 4
+-22 11 -30 17 -17 12 -313 194 -522 323 -79 48 -150 92 -158 97 -8 5 -80 48
+-159 95 -79 47 -192 117 -252 155 -59 39 -110 70 -113 70 -3 0 -60 33 -128 73
+-68 41 -199 119 -293 175 -197 117 -270 172 -316 238 -75 110 -88 204 -40 307
+48 105 108 151 481 377 184 112 371 226 415 255 44 28 105 66 135 85 341 207
+413 250 421 250 5 0 26 -10 47 -23 50 -32 165 -77 292 -117 58 -17 114 -36
+125 -40 43 -19 174 -60 189 -60 25 0 63 43 74 85 34 123 83 367 107 535 8 58
+17 111 20 118 10 27 160 81 305 111 50 10 253 14 262 5z M3941 6050 c-179 -42
+-331 -209 -332 -365 -1 -67 12 -102 56 -147 47 -50 82 -62 181 -63 86 0 95 2
+167 38 228 116 310 365 163 495 -55 48 -143 64 -235 42z M4830 5534 c-135 -44
+-249 -141 -294 -249 -20 -48 -23 -154 -4 -186 48 -87 113 -122 224 -123 78 0
+91 3 184 47 42 20 146 130 168 178 28 61 37 135 22 189 -15 56 -91 134 -140
+143 -37 8 -137 8 -160 1z"/>
+        </g>
+      </symbol>
+    </svg>
+
     <div class="viewport-frame" aria-hidden="true"></div>
     <!-- ===== Preloader ===== -->
     <section class="preloader">
       <div class="preloader-center">
-        <svg class="sigil sigil-preloader" viewBox="0 0 48 48" aria-hidden="true">
-          <path d="M24 4 L38 14 L44 32 L24 44 L4 32 L10 14 Z" fill="currentColor"/>
-          <circle cx="18" cy="24" r="2.6" fill="#fff"/>
-          <circle cx="30" cy="24" r="2.6" fill="#fff"/>
-        </svg>
+        <svg class="sigil sigil-preloader" viewBox="0 0 1082 1106" aria-hidden="true"><use href="#logo-mark"/></svg>
         <div class="preloader-bar"><div class="preloader-progress"></div></div>
       </div>
-      <div class="preloader-ghost" aria-hidden="true">SMNW</div>
+      <div class="preloader-marquee" aria-hidden="true">
+        <div class="preloader-marquee-mirror">
+          <div class="preloader-marquee-track">
+            <span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+        <div class="preloader-marquee-track">
+          <span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span>
+        </div>
+      </div>
     </section>
 
     <!-- ===== Nav ===== -->
     <header class="nav">
       <a href="#" class="brand sigil-brand">
-        <svg class="sigil" viewBox="0 0 48 48" aria-hidden="true">
-          <path d="M24 4 L38 14 L44 32 L24 44 L4 32 L10 14 Z" fill="currentColor"/>
-          <circle cx="18" cy="24" r="2.6" fill="var(--color-accent)"/>
-          <circle cx="30" cy="24" r="2.6" fill="var(--color-accent)"/>
-        </svg>
+        <svg class="sigil" viewBox="0 0 1082 1106" aria-hidden="true"><use href="#logo-mark"/></svg>
         <span class="brand-word">Summonware</span>
       </a>
       <button class="menu-pill" id="menu-toggle" aria-expanded="false">
@@ -91,8 +160,7 @@
     <div class="menu-overlay" id="menu-overlay">
       <nav class="menu-links">
         <a href="#services" data-menu-link data-i18n="nav.services">Services</a>
-        <a href="#how-we-work" data-menu-link data-i18n="nav.howWeWork">How we work</a>
-        <a href="#trust" data-menu-link data-i18n="nav.trust">Trust &amp; compliance</a>
+        <a href="#projects" data-menu-link data-i18n="nav.howWeWork">Selected work</a>
         <a href="#faq" data-menu-link data-i18n="nav.faq">FAQ</a>
       </nav>
       <div class="menu-meta">
@@ -100,18 +168,25 @@
         <a href="#" data-i18n="nav.privacy">Privacy Policy</a>
         <a href="#" data-i18n="nav.terms">Terms of Service</a>
         <span class="tag-mono" data-i18n="nav.social">Social</span>
-        <a href="#">LinkedIn</a>
+        <a href="#">Facebook</a>
         <a href="#">Instagram</a>
       </div>
     </div>
 
-    <main>
-      <!-- ===== 02 Hero ===== -->
+    <main id="home-view">
+      <!-- ===== 02 Hero =====
+           Rebuilt (kintsugi): the old hero was a pinned three.js scene
+           (seal -> dome -> device). No more scroll-jacking either way —
+           now a level-3 WebGL fluid-gradient blob (heroBlob.ts, on-brand
+           palette) plus kinetic per-letter type as the signature
+           technique (hero.ts). -->
       <section class="hero" data-track-section="02_hero">
-        <div class="hero-canvas-wrap"><canvas id="scroll-canvas"></canvas></div>
+        <div class="hero-blob-wrap" aria-hidden="true">
+          <canvas id="hero-blob-canvas" class="hero-blob-canvas"></canvas>
+        </div>
         <div class="hero-copy">
           <p class="hero-tag tag-mono" hero-tag><span class="tag-square"></span><span data-i18n="hero.tag">AI–FORWARD SOFTWARE HOUSE</span></p>
-          <h1 class="hero-heading" hero-heading data-i18n-html="hero.headingHtml">Software that ships itself into <em>existence</em></h1>
+          <h1 class="hero-heading" id="hero-heading" hero-heading data-i18n-html="hero.headingHtml">Software that ships itself into <em>existence</em></h1>
           <p class="hero-description" hero-description data-i18n="hero.description">Even one call is enough to start. Tell us the outcome you need — we summon the product: scoped, designed, and built with an AI-accelerated pipeline that never steals your quarter.</p>
           <a href="#start" class="btn-swoosh hero-cta"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text" data-i18n="hero.cta">Book a free call</span></a>
         </div>
@@ -122,18 +197,6 @@
             <circle class="orbit-dot" cx="60" cy="60" r="5"/>
           </svg>
         </div>
-        <div class="hero-intro" id="intro-text">
-          <div class="dashed-circle" aria-hidden="true"></div>
-          <p class="intro-line text-45" data-i18n-html="hero.introHtml">No dev team? <strong>Summonware</strong> gets your product built — even if all you have is an idea</p>
-          <p class="intro-sub" data-i18n="hero.introSub">Scopes itself in days, looks right from the first screen, turns whatever you sketch into working software</p>
-        </div>
-      </section>
-
-      <!-- ===== 03 No overhead (dark) ===== -->
-      <section id="no-overhead" class="no-overhead section-dark" data-track-section="03_no_overhead">
-        <h2 class="text-60" data-fx="scan-text" data-fx-color="light">No <span class="swap-word" data-i18n-words="promise.words" data-words='["hiring","handoffs","bloat"]'>hiring</span></h2>
-        <p class="lead" data-i18n="promise.lead">Just bring the problem — we bring the team</p>
-        <p class="sub" data-i18n="promise.sub">Summonware shapes the scope, designs the experience, and turns your idea into a shipped product in weeks.</p>
       </section>
 
       <!-- ===== 04 Features ===== -->
@@ -144,15 +207,19 @@
             <span>AI systems</span><span>•</span><span>Custom software</span><span>•</span><span>Product design</span><span>•</span><span>Launch support</span><span>•</span>
           </div>
         </div>
-        <p class="tag-mono section-tag"><span class="tag-square"></span><span data-i18n="services.tag">services</span></p>
-        <h2 class="text-60" data-fx="scan-text" data-i18n-html="services.headingHtml">Your business, <em>upgraded</em></h2>
-        <p class="features-sub" data-i18n="services.sub">Summonware isn't a single service. It's a complete system built around how you actually operate.</p>
-
         <!-- Pinned stage: scroll scrubs through the 4 services; the
              shape panel morphs and the copy wipes between steps. Content
              is rendered from src/i18n/*.json (services.steps) by
-             initFeatureStage() in main.ts, not this static markup. -->
+             initFeatureStage() in main.ts, not this static markup.
+             The section header now lives inside this same dark panel
+             (feature-intro) instead of a separate light-background intro
+             above it — one continuous dark beat, not a light-then-dark
+             two-step, matching how Trust/How-we-work do it. -->
         <div class="feature-stage-wrap">
+          <div class="feature-intro">
+            <p class="tag-mono section-tag light"><span class="tag-square"></span><span data-i18n="services.tag">services</span></p>
+            <h2 class="text-60" data-fx="scan-text" data-fx-color="light" data-i18n-html="services.headingHtml">Your business, <em>upgraded</em></h2>
+          </div>
           <div class="feature-stage">
             <div class="stage-copy">
               <header class="feature-head">
@@ -186,7 +253,10 @@
            buyers (SMEs, government, banks). All factual claims here are
            marked PLACEHOLDER in the CMS copy and must be confirmed true
            before publishing (PDPA compliance, hosting location, etc). ===== -->
-      <section id="trust" class="trust section-dark section-view" data-track-section="05_trust">
+      <!-- Hidden for now per founder request — re-enable by removing `hidden`
+           (and restoring its nav.trust menu link in the overlay above)
+           once ready to surface compliance claims again. -->
+      <section id="trust" class="trust section-dark section-view" data-track-section="05_trust" hidden>
         <p class="tag-mono section-tag light"><span class="tag-square"></span><span data-i18n="trust.tag">trust & compliance</span></p>
         <h2 class="text-60" data-fx="scan-text" data-fx-color="light" data-i18n-html="trust.headingHtml">Ready for <em>regulated procurement</em></h2>
         <p class="trust-sub" data-i18n="trust.sub">Built to pass security review, not just sprint review.</p>
@@ -198,50 +268,6 @@
           <article class="trust-card">
             <h4 data-i18n="trust.cards.1.title">In-country hosting available</h4>
             <p data-i18n="trust.cards.1.body">Deploy on Thailand-based infrastructure when data residency is a requirement, not a preference.</p>
-          </article>
-          <article class="trust-card">
-            <h4 data-i18n="trust.cards.2.title">Security-reviewed delivery</h4>
-            <p data-i18n="trust.cards.2.body">Every line ships through senior review, static analysis, and dependency audits before it reaches your repo.</p>
-          </article>
-          <article class="trust-card">
-            <h4 data-i18n="trust.cards.3.title">Formal engagement, your terms</h4>
-            <p data-i18n="trust.cards.3.body">NDA, SOW, fixed-price or time-and-materials — we work inside your procurement process, not around it.</p>
-          </article>
-        </div>
-        <p class="trust-note tag-mono" data-i18n="trust.note">PLACEHOLDER — confirm each claim above is accurate before publishing.</p>
-      </section>
-
-      <!-- ===== 06 How we work (dark) ===== -->
-      <section id="how-we-work" class="how-we-work section-dark section-view" data-track-section="06_how_we_work">
-        <p class="tag-mono section-tag light"><span class="tag-square"></span><span data-i18n="howWeWork.tag">how we work</span></p>
-        <h2 class="text-60" data-fx="scan-text" data-fx-color="light" data-i18n-html="howWeWork.headingHtml">Built around <em>how you grow</em></h2>
-        <div class="work-cards">
-          <article class="work-card">
-            <h4 data-i18n="howWeWork.cards.0.title">Launching a startup</h4>
-            <p class="work-mode tag-mono" data-i18n="howWeWork.cards.0.mode">STUDIO MODE</p>
-            <p class="work-lead" data-i18n="howWeWork.cards.0.lead">Idea → Summonware → MVP in market. Done.</p>
-            <ul class="work-specs">
-              <li data-i18n="howWeWork.cards.0.specs.0">Senior-only team — no juniors on your bill</li>
-              <li data-i18n="howWeWork.cards.0.specs.1">AI-native pipeline on every task</li>
-            </ul>
-          </article>
-          <article class="work-card">
-            <h4 data-i18n="howWeWork.cards.1.title">Scaling a business</h4>
-            <p class="work-mode tag-mono" data-i18n="howWeWork.cards.1.mode">EMBEDDED MODE</p>
-            <p class="work-lead" data-i18n="howWeWork.cards.1.lead">A senior team on tap while you grow revenue, not headcount.</p>
-            <ul class="work-specs">
-              <li data-i18n="howWeWork.cards.1.specs.0">Our engineers inside your standups and repo</li>
-              <li data-i18n="howWeWork.cards.1.specs.1">&lt; 24h response, one point of contact</li>
-            </ul>
-          </article>
-          <article class="work-card">
-            <h4 data-i18n="howWeWork.cards.2.title">Public sector &amp; regulated enterprise</h4>
-            <p class="work-mode tag-mono" data-i18n="howWeWork.cards.2.mode">STUDIO OR EMBEDDED</p>
-            <p class="work-lead" data-i18n="howWeWork.cards.2.lead">We work inside your procurement and compliance process — not around it.</p>
-            <ul class="work-specs">
-              <li data-i18n="howWeWork.cards.2.specs.0">Fixed-scope proposals for RFPs</li>
-              <li data-i18n="howWeWork.cards.2.specs.1">Security review and PDPA-aligned handling by default</li>
-            </ul>
           </article>
         </div>
       </section>
@@ -267,13 +293,17 @@
         <div class="faq-list">
           <details><summary data-i18n="faq.items.0.q">What is Summonware?</summary><p data-i18n="faq.items.0.a">An AI-forward software house. We replace your need for an agency, a dev team, a design studio, and an AI consultancy — one partner that takes an idea to a shipped product with pro-level quality and AI-accelerated delivery built in.</p></details>
           <details><summary data-i18n="faq.items.1.q">Who is Summonware for?</summary><p data-i18n="faq.items.1.a">Anyone with a product to build — from startups to SMEs to regulated enterprises and public-sector teams. We adapt the engagement to your process, whether that's a quick MVP or a formal RFP.</p></details>
-          <details><summary data-i18n="faq.items.2.q">How is this different from a regular agency?</summary><p data-i18n="faq.items.2.a">Most agencies just execute tickets. Summonware also scopes the product, designs the journey, wires in AI where it earns its keep, and stays for launch and growth. And it all comes from one senior team.</p></details>
-          <details><summary data-i18n="faq.items.3.q">How does the AI-accelerated pipeline work?</summary><p data-i18n="faq.items.3.a">Every task runs through our internal tooling built on frontier models — code generation, review, test synthesis, and docs. Humans make the calls; the pipeline removes the grind. You get senior output at roughly twice the pace.</p></details>
-          <details><summary data-i18n="faq.items.4.q">What's the turnaround?</summary><p data-i18n="faq.items.4.a">First working demo in about two weeks including scoping and design. The discovery-to-proposal step itself is around five business days.</p></details>
-          <details><summary data-i18n="faq.items.5.q">Will the AI affect my code quality or compliance posture?</summary><p data-i18n="faq.items.5.a">Unreviewed AI code tends to be verbose and brittle — so ours never ships unreviewed. Every line passes senior review, tests, and static analysis before it reaches your repo, the same standard we'd expect for a regulated client.</p></details>
+          <details><summary data-i18n="faq.items.2.q">How does the AI-accelerated pipeline work?</summary><p data-i18n="faq.items.2.a">Every task runs through our internal tooling built on frontier models — code generation, review, test synthesis, and docs. Humans make the calls; the pipeline removes the grind. You get senior output at roughly twice the pace.</p></details>
+          <details><summary data-i18n="faq.items.3.q">What's the turnaround?</summary><p data-i18n="faq.items.3.a">First working demo in about two weeks including scoping and design. The discovery-to-proposal step itself is around five business days.</p></details>
         </div>
       </section>
     </main>
+
+    <!-- ===== Work detail page (product case studies) — populated by
+         work.ts when the URL matches /work/:slug or /th/work/:slug.
+         Empty in the initial HTML; JS builds it from data + i18n so all
+         8 products share exactly one template. ===== -->
+    <main id="work-view" hidden></main>
 
     <!-- ===== Footer ===== -->
     <footer class="footer section-dark">
@@ -283,9 +313,9 @@
       <div class="footer-ghost" aria-hidden="true">Summonware</div>
       <div class="footer-meta">
         <span>© 2026 Summonware</span>
-        <a href="#" data-i18n="footer.terms">terms</a><a href="#" data-i18n="footer.privacy">privacy policy</a><a href="#">linkedin</a>
+        <a href="#" data-i18n="footer.terms">terms</a><a href="#" data-i18n="footer.privacy">privacy policy</a><a href="#">facebook</a>
       </div>
-      <p class="footer-stack tag-mono" data-i18n="footer.stack">stack — typescript · python · react · three.js · claude api</p>
+      <p class="footer-stack tag-mono" data-i18n="footer.stack">services — AI solutions · custom software · security · IoT hardware</p>
     </footer>
 
     <script type="module" src="/src/main.ts"></script>

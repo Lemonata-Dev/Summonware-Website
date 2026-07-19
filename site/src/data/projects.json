@@ -1,47 +1,66 @@
 [
   {
-    "name": "Ecommerce Customer Data Platform",
-    "type": "Data platform",
+    "slug": "ecommerce-customer-data-platform",
     "year": "2026",
-    "blurb": "Unifies customer data across every storefront and channel into one profile — AI-scored, always current, ready for marketing and support to act on.",
-    "tags": ["AI systems", "Ecommerce", "Data"],
     "hue": "orange",
-    "kind": "ecommerce-cdp"
+    "kind": "ecommerce-cdp",
+    "photo": "https://images.pexels.com/photos/3861957/pexels-photo-3861957.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "photoCredit": "ThisIsEngineering / Pexels"
   },
   {
-    "name": "OCR Ingestion & Auto-Action",
-    "type": "Document automation",
+    "slug": "ocr-ingestion-auto-action",
     "year": "2026",
-    "blurb": "Scans incoming documents, extracts the data with OCR, and automatically triggers the right downstream action — no manual re-entry, no waiting.",
-    "tags": ["AI systems", "OCR", "Automation"],
     "hue": "dark",
-    "kind": "ocr-action"
+    "kind": "ocr-action",
+    "photo": "https://images.pexels.com/photos/8152735/pexels-photo-8152735.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "photoCredit": "Pavel Danilyuk / Pexels"
   },
   {
-    "name": "IT Security Hardening",
-    "type": "Infrastructure",
+    "slug": "it-security-hardening",
     "year": "2025",
-    "blurb": "Audits, patches, and locks down your stack — least-privilege access, dependency hygiene, and monitoring that catches problems before they're incidents.",
-    "tags": ["Security", "Infrastructure"],
     "hue": "light",
-    "kind": "security"
+    "kind": "security",
+    "photo": "https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "photoCredit": "Brett Sayles / Pexels"
   },
   {
-    "name": "Microsoft Solutions",
-    "type": "Systems integration",
+    "slug": "microsoft-solutions",
     "year": "2025",
-    "blurb": "Builds and connects across the Microsoft ecosystem — Power Platform, 365, and Azure — so your existing tools finally work together.",
-    "tags": ["Microsoft", "Integrations"],
     "hue": "dark",
-    "kind": "microsoft"
+    "kind": "microsoft",
+    "photo": "https://images.pexels.com/photos/7693698/pexels-photo-7693698.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "photoCredit": "Yan Krukau / Pexels"
   },
   {
-    "name": "IoT Device Network",
-    "type": "Connected hardware",
+    "slug": "iot-device-network",
     "year": "2025",
-    "blurb": "Connects sensors and devices into one monitored network — real-time telemetry, alerts, and a dashboard that makes the fleet legible.",
-    "tags": ["IoT", "Edge", "Hardware"],
     "hue": "orange",
-    "kind": "iot"
+    "kind": "iot",
+    "photo": "https://images.pexels.com/photos/2182863/pexels-photo-2182863.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "photoCredit": "TimSon Foox / Pexels"
+  },
+  {
+    "slug": "security-configuration-hardening",
+    "year": "2026",
+    "hue": "light",
+    "kind": "sec-hardening",
+    "photo": "https://images.pexels.com/photos/5380664/pexels-photo-5380664.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "photoCredit": "Tima Miroshnichenko / Pexels"
+  },
+  {
+    "slug": "security-control-validation",
+    "year": "2026",
+    "hue": "dark",
+    "kind": "sec-validation",
+    "photo": "https://images.pexels.com/photos/11783119/pexels-photo-11783119.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "photoCredit": "Samon Yu / Pexels"
+  },
+  {
+    "slug": "automated-attack-simulation",
+    "year": "2026",
+    "hue": "orange",
+    "kind": "attack-sim",
+    "photo": "https://images.pexels.com/photos/5380618/pexels-photo-5380618.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "photoCredit": "Tima Miroshnichenko / Pexels"
   }
 ]

@@ -11,8 +11,8 @@ This describes the *intended* build structure (src/ doesn't exist yet — create
 | Page | Route | Section source | Notes |
 |---|---|---|---|
 | Home | `/` | See section 2 below | Single long-scroll page per NARRATIVE_FLOW.md's 5-act structure |
-| Project detail (future) | `/projects/[id]` | `data/projects.json` | Not in v1 scope — add only if individual case-study pages are wanted beyond the homepage cards |
-| Service detail (future) | `/services/[id]` | `data/services.json` | Not in v1 scope — same as above |
+| Work detail | `/work/:slug` (`/th/work/:slug`) | `site/src/data/projects.json` (structure) + `site/src/i18n/{en,th}.json` `work.items`/`work.detail` (all copy) | Shipped. Client-side route inside the same SPA (`site/src/work.ts`), not a separate framework page — `#home-view`/`#work-view` toggle in `index.html`, decided in `main.ts` from the URL path. One shared template for every product: intro → 4 features → CTA, plus a side product-directory drawer and edge-hover prev/next navigation. Add a new product by adding one entry to `projects.json` (with a unique `slug`) and matching `work.items`/`work.detail` entries in **both** `en.json` and `th.json`. |
+| Service detail (future) | `/services/[id]` | `data/services.json` | Not in v1 scope — same pattern as Work detail above could be reused if this is wanted later |
 
 ---
 
@@ -41,7 +41,7 @@ Matches NARRATIVE_FLOW.md's Act structure and INSPIRATION_BRIEF.md's structural 
 → Add an object to `data/services.json`. `ServiceCard` renders N items automatically — no component change needed. Follow the existing object shape (id, code, title, headline, description, icon).
 
 **"Add a new project / case study"**
-→ Add an object to `data/projects.json`. Same rule — `ProjectCard` handles N items.
+→ Three files, all required: 1) add `{slug, year, hue, kind, photo, photoCredit}` to `site/src/data/projects.json` (`kind` selects a carousel-card skeleton illustration in `projects3d.ts` and a 3D glyph shape in `workGlyph3d.ts` — reuse an existing one or add a new `case` to both). 2) add a `work.items.<slug>` entry (name/type/blurb/tags) to **both** `site/src/i18n/en.json` and `th.json`. 3) add a matching `work.detail.<slug>` entry (intro, 4 `features`, `ctaHeadingHtml`, `ctaBody`) to both language files, same shape as the existing 8. The carousel and the `/work/:slug` detail page are both driven off this same data — nothing else to wire up.
 
 **"Add a new homepage section entirely"** (e.g. a future "Team" section)
 → 1) Add a row to the table in section 2 above with its Act/narrative purpose. 2) Reuse existing components from DESIGN_SYSTEM.md section 7 before inventing a new one. 3) Create the data file in `/data/` if the content is list-like. 4) Add the section file under `src/sections/home/`.
