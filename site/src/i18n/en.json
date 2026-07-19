@@ -262,5 +262,17 @@
     "terms": "terms",
     "privacy": "privacy policy",
     "stack": "services — AI solutions · custom software · security · IoT hardware"
+  },
+  "notFound": {
+    "code": "404",
+    "headingHtml": "Lost the <em>summoning circle</em>",
+    "body": "This page doesn't exist — the link might be broken, or it moved.",
+    "cta": "Back to home"
+  },
+  "comingSoon": {
+    "code": "coming soon",
+    "headingHtml": "Something's being <em>summoned</em>",
+    "body": "We're building something new here. Check back soon, or reach out directly in the meantime.",
+    "cta": "Get in touch"
   }
 }

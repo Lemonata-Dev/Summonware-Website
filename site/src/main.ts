@@ -7,9 +7,10 @@ import { initStageFX } from "./stage3d";
 import { initProjects3D } from "./projects3d";
 import { initCursor, initMagnetic } from "./fx";
 import { initI18n, t } from "./i18n";
-import { getWorkSlug, homeHref } from "./routes";
+import { getWorkSlug, homeHref, isHomePath } from "./routes";
 import { renderWorkPage } from "./work";
 import { fillStartIdea } from "./startForm";
+import { MAINTENANCE_MODE } from "./config";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -299,18 +300,34 @@ function initUseCaseFromQuery() {
   requestAnimationFrame(() => fillStartIdea(usecase));
 }
 
-/* ---------- routing: home vs a /work/:slug product detail page ---------- */
+/* ---------- routing: home / work detail / 404 / coming soon ----------
+   MAINTENANCE_MODE (src/config.ts) short-circuits every other route to
+   the Coming Soon page. Otherwise: a /work/:slug (or /th/work/:slug) URL
+   that doesn't match a real project, or any path that isn't the actual
+   homepage, falls through to the 404 view — Azure's SPA navigationFallback
+   serves index.html for literally any unmatched path, so this JS-side
+   check is the only place that distinguishes a real route from a dead
+   link (see isHomePath()/getWorkSlug() in routes.ts). */
 const workSlug = getWorkSlug();
-const showingWork = workSlug !== null && renderWorkPage(workSlug);
+const workRendered = workSlug !== null && renderWorkPage(workSlug);
+const showingComingSoon = MAINTENANCE_MODE;
+const showingWork = !showingComingSoon && workRendered;
+const showingNotFound = !showingComingSoon && !showingWork && (workSlug !== null || !isHomePath());
+const showingHome = !showingComingSoon && !showingWork && !showingNotFound;
 
-if (showingWork) {
-  document.getElementById("home-view")!.hidden = true;
-  document.getElementById("work-view")!.hidden = false;
+document.getElementById("home-view")!.hidden = !showingHome;
+document.getElementById("work-view")!.hidden = !showingWork;
+document.getElementById("notfound-view")!.hidden = !showingNotFound;
+document.getElementById("coming-soon-view")!.hidden = !showingComingSoon;
 
+if (showingNotFound) document.title = `${t("notFound.code")} — Summonware`;
+if (showingComingSoon) document.title = `Summonware — ${t("comingSoon.code")}`;
+
+if (!showingHome) {
   // The nav (brand, "Start a project", Services/Selected work/FAQ) is one
   // shared element reused on every route — its links are bare in-page
   // anchors like "#services" because on the homepage that's all they need
-  // to be. On a /work/:slug page there's no #services in the visible DOM
+  // to be. Anywhere else there's no #services in the visible DOM
   // (home-view is just hidden, not removed), so clicking did nothing —
   // this rewrites them to point home first, landing on the right section.
   document.querySelectorAll<HTMLAnchorElement>('.brand, .nav-cta, [data-menu-link]').forEach((a) => {
@@ -318,6 +335,9 @@ if (showingWork) {
     if (hash?.startsWith("#")) a.href = `${homeHref()}${hash}`;
   });
 }
+// The 404 page's own "back to home" link needs the same treatment (it's
+// a plain "/" href in the markup, wrong on a "/th/whatever" dead link).
+document.querySelectorAll<HTMLAnchorElement>("[data-status-home-link]").forEach((a) => (a.href = homeHref()));
 
 initPreloader();
 initScanText();
@@ -326,10 +346,10 @@ initBrandSwap();
 initCursor();
 initMagnetic();
 
-if (!showingWork) {
+if (showingHome) {
   // Homepage-only subsystems: three separate WebGL scenes plus scroll
   // choreography that have no target elements (and no reason to spend
-  // GPU/CPU) on a work detail page.
+  // GPU/CPU) anywhere else.
   initCounters();
   initWaveBars();
   initForm();
