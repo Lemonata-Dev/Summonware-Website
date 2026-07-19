@@ -1,12 +1,15 @@
 // Summonware — interaction layer: preloader, text effects, menu,
-// scroll reveals, and the Three.js hero.
+// scroll reveals, and the hero.
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { initHero3D } from "./hero3d";
+import { initHero } from "./hero";
 import { initStageFX } from "./stage3d";
 import { initProjects3D } from "./projects3d";
 import { initCursor, initMagnetic } from "./fx";
 import { initI18n, t } from "./i18n";
+import { getWorkSlug, homeHref } from "./routes";
+import { renderWorkPage } from "./work";
+import { fillStartIdea } from "./startForm";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -139,7 +142,10 @@ function initBrandSwap() {
   const brand = document.querySelector<HTMLElement>(".sigil-brand");
   if (!brand) return;
   const dark = getComputedStyle(document.documentElement).getPropertyValue("--color-ink").trim();
-  const sections = Array.from(document.querySelectorAll<HTMLElement>(".section-dark, .feature-stage"));
+  // .feature-stage-wrap, not just the sticky .feature-stage child — the
+  // wrap now carries the dark background for its full height, including
+  // .feature-intro, which scrolls normally above the pin point.
+  const sections = Array.from(document.querySelectorAll<HTMLElement>(".section-dark, .feature-stage-wrap"));
   let ticking = false;
   function evaluate() {
     const r = brand!.getBoundingClientRect();
@@ -162,19 +168,6 @@ function initBrandSwap() {
     { passive: true }
   );
   evaluate();
-}
-
-/* ---------- rotating word ---------- */
-function initSwapWord() {
-  const el = document.querySelector<HTMLElement>(".swap-word");
-  if (!el) return;
-  const words: string[] = JSON.parse(el.dataset.words ?? "[]");
-  let i = 0;
-  setInterval(() => {
-    i = (i + 1) % words.length;
-    gsap.fromTo(el, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.out" });
-    el.textContent = words[i];
-  }, 2200);
 }
 
 /* ---------- counters ---------- */
@@ -273,9 +266,12 @@ function initFeatureStage() {
 }
 
 /* ---------- projects showcase (data-driven, 3D carousel) ---------- */
-import projects from "./data/projects.json";
+import projectsRaw from "./data/projects.json";
+import type { WorkItem } from "./work";
 
 function initProjects() {
+  const items = t("work.items") as Record<string, WorkItem>;
+  const projects = projectsRaw.map((p) => ({ ...p, ...items[p.slug] }));
   initProjects3D(projects);
 }
 
@@ -291,16 +287,54 @@ function initForm() {
   });
 }
 
+/* ---------- "start something like this" via cross-page navigation: the
+   /work/:slug CTA (work.ts) links home with a ?usecase=<project name>
+   query param since it's a full page reload, not a same-page click — this
+   picks the param up on load and forwards it to the shared prefill helper,
+   then strips it from the URL so it doesn't linger or reapply later. ---------- */
+function initUseCaseFromQuery() {
+  const usecase = new URLSearchParams(location.search).get("usecase");
+  if (!usecase) return;
+  history.replaceState(null, "", location.pathname + location.hash);
+  requestAnimationFrame(() => fillStartIdea(usecase));
+}
+
+/* ---------- routing: home vs a /work/:slug product detail page ---------- */
+const workSlug = getWorkSlug();
+const showingWork = workSlug !== null && renderWorkPage(workSlug);
+
+if (showingWork) {
+  document.getElementById("home-view")!.hidden = true;
+  document.getElementById("work-view")!.hidden = false;
+
+  // The nav (brand, "Start a project", Services/Selected work/FAQ) is one
+  // shared element reused on every route — its links are bare in-page
+  // anchors like "#services" because on the homepage that's all they need
+  // to be. On a /work/:slug page there's no #services in the visible DOM
+  // (home-view is just hidden, not removed), so clicking did nothing —
+  // this rewrites them to point home first, landing on the right section.
+  document.querySelectorAll<HTMLAnchorElement>('.brand, .nav-cta, [data-menu-link]').forEach((a) => {
+    const hash = a.getAttribute("href");
+    if (hash?.startsWith("#")) a.href = `${homeHref()}${hash}`;
+  });
+}
+
 initPreloader();
 initScanText();
 initMenu();
 initBrandSwap();
-initSwapWord();
-initCounters();
-initWaveBars();
-initForm();
-initFeatureStage();
-initProjects();
-initHero3D();
 initCursor();
 initMagnetic();
+
+if (!showingWork) {
+  // Homepage-only subsystems: three separate WebGL scenes plus scroll
+  // choreography that have no target elements (and no reason to spend
+  // GPU/CPU) on a work detail page.
+  initCounters();
+  initWaveBars();
+  initForm();
+  initFeatureStage();
+  initProjects();
+  initHero();
+  initUseCaseFromQuery();
+}

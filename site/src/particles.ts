@@ -113,37 +113,6 @@ export function cardSilhouette(count: number, w: number, h: number, cx = 0, cy =
   return a;
 }
 
-/** a flat ring on the ground plane (y=0), matching a summoning seal —
-    particles gather here on ignition before rising onto the dome shell */
-export function sealRing(count: number, radius = 1.3): Float32Array {
-  const a = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    const th = Math.random() * Math.PI * 2;
-    const r = radius * (0.85 + Math.random() * 0.3);
-    a[i * 3] = Math.cos(th) * r;
-    a[i * 3 + 1] = (Math.random() - 0.5) * 0.04;
-    a[i * 3 + 2] = Math.sin(th) * r;
-  }
-  return a;
-}
-
-/** points scattered over the upper-hemisphere surface of a dome of
-    `radius` centered at y=0 — particles rise onto this as the barrier
-    grows, matching the geometry of the dome mesh itself */
-export function domeShell(count: number, radius: number): Float32Array {
-  const a = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    const u = Math.random(), v = Math.random();
-    const th = u * Math.PI * 2;
-    const ph = Math.acos(v) * 0.98; // 0..~PI/2-ish, biased toward the upper hemisphere
-    const r = radius * (1.0 + Math.random() * 0.05);
-    a[i * 3] = Math.sin(ph) * Math.cos(th) * r;
-    a[i * 3 + 1] = Math.cos(ph) * r;
-    a[i * 3 + 2] = Math.sin(ph) * Math.sin(th) * r;
-  }
-  return a;
-}
-
 /* ---------- shaders ---------- */
 
 const VERT = /* glsl */ `
@@ -183,7 +152,7 @@ const VERT = /* glsl */ `
     vec2 d = pos.xy - uMouse.xy;
     float dist = length(d);
     float force = smoothstep(0.9, 0.0, dist);
-    pos.xy += normalize(d + 1e-4) * force * 0.55;
+    pos.xy += normalize(d + 1e-4) * force * 0.32;
     vGlow = force;
 
     vec4 mv = modelViewMatrix * vec4(pos, 1.0);

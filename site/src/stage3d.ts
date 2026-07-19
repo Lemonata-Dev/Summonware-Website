@@ -6,7 +6,7 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { ParticleField, chaosCloud, gridPlane, wireBoxes, haloVortex } from "./particles";
 
-const COUNT = 7000;
+const COUNT = 2600;
 const TARGETS = [chaosCloud(COUNT), gridPlane(COUNT), wireBoxes(COUNT), haloVortex(COUNT)];
 // per-step residual chaos: how much noise wobble each shape keeps
 const CHAOS = [1.0, 0.45, 0.2, 0.07];
@@ -164,7 +164,7 @@ export function initStageFX() {
     current = i;
   }
 
-  // Pause rendering while off-screen — see hero3d.ts for why this matters:
+  // Pause rendering while off-screen — see hero.ts/particles.ts for why this matters:
   // several concurrent WebGL scenes rendering unconditionally is enough
   // load to stall unrelated rAF-driven animation elsewhere on the page.
   let onScreen = true;

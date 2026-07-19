@@ -1,70 +1,48 @@
 # Content Placeholders — Review & Replace
-**Status:** DRAFT PLACEHOLDER — every value marked PLACEHOLDER must be replaced with real content before launch.
-**Backs:** the /data/*.json files that feed the site's components (see DESIGN_SYSTEM.md section 7 and NARRATIVE_FLOW.md).
+**Status:** FINAL for launch-as-simple. The site intentionally ships without testimonials or a stats section (no track record yet — confirmed with the founder rather than inventing numbers or quotes).
+**Backs:** copy actually lives inline in `site/src/i18n/en.json` / `th.json` (not separate `/data/*.json` files per section — only `site/src/data/projects.json` is a standalone data file, holding structural fields like slug/photo/hue).
 
-This is the single place to review and edit content in plain language. Once you approve wording here, mirror the changes into the corresponding JSON file — or just tell a future session "update services.json per CONTENT_PLACEHOLDERS.md" and it will do the sync.
-
----
-
-## Services (`data/services.json`) — Act 2: Formation
-
-5 placeholder categories, generated to plausibly fit "software house serving all business needs, AI-forward":
-
-1. **Custom Software** — Turn manual workflows into working software
-2. **AI Integration** — Put AI to work inside your existing operations
-3. **Product Design & Build** — From idea to shipped product
-4. **Systems & Automation** — Remove the manual work between your tools
-5. **Technology Consulting** — A technical partner before you write a line of code
-
-**Replace with:** your actual service lineup. If you only offer 3, or a completely different 5, just tell me the list and I'll regenerate this file and its descriptions.
+This file used to describe an earlier planned architecture (separate `services.json`, `testimonial.json`, `cta.json`, React `.tsx` sections). The actual build is a vanilla-TS/Vite SPA and doesn't use that structure — this doc now reflects what's really there.
 
 ---
 
-## Process (`data/process.json`) — Act 3: Resolution (flagship section)
+## Services — inline in `i18n/{en,th}.json`
 
-Generic 4-step placeholder, written verb-led per NARRATIVE_FLOW.md guidance:
-
-1. **We map the problem** — discovery/understanding phase
-2. **We design the shape** — planning/architecture phase
-3. **We build it for real** — engineering phase, visible progress
-4. **We ship and stay on** — launch + ongoing support
-
-**Replace with:** your actual process. Even if you don't have a formalized process yet, this is worth defining for real — it's the flagship animated section, so vague placeholder steps will be the most visible weak point on the page if left unedited.
+Copy is specific scenario-based content (customer data unification, document/OCR ingestion, security hardening, Microsoft-stack integration, IoT fleet visibility, attack simulation) rather than generic category placeholders — already past the "vague 5-category placeholder" stage.
 
 ---
 
-## Projects (`data/projects.json`) — Act 4: Proof
+## Process (flagship pinned-scroll section) — `services.steps` in `i18n/{en,th}.json`
 
-3 placeholder case studies, structured as problem → solution → outcome per NARRATIVE_FLOW.md's copy direction. All client names, industries, and outcomes are fake.
-
-**Replace with:** real past projects. If you don't have client permission to name them publicly yet, we can genericize (e.g. "A logistics company in Bangkok") rather than inventing fake specifics — flag this if it applies.
+Confirm the step copy still matches your actual delivery process before calling this final; it's the flagship animated section (`.feature-stage-wrap` in `index.html` + `initFeatureStage()` in `main.ts`) so it's the most visible section on the page.
 
 ---
 
-## Stats — dropped for now
+## Projects — `site/src/data/projects.json` (structure) + `work.items`/`work.detail` in `i18n/{en,th}.json` (copy)
 
-`data/stats.json` has been removed. As a starting company, Summonware has no track record yet to make a stats section (Projects Delivered, Years Active, etc.) credible — zeroed-out or invented numbers would undercut trust more than help it. `StatCallout` stays defined in DESIGN_SYSTEM.md as a deferred component; reintroduce this section once there are real, honestly-claimable numbers. See NARRATIVE_FLOW.md section 6.
-
----
-
-## Testimonial (`data/testimonial.json`) — Act 4: Proof
-
-One placeholder quote demonstrating the "specific claim, not generic praise" copy direction from NARRATIVE_FLOW.md.
-
-**Replace with:** a real client quote. If none exist yet, better to omit this section entirely on first launch than publish a fabricated quote — flag this if you don't have one ready.
+8 case studies, all genericized by capability/scenario (e.g. `ecommerce-customer-data-platform`, `ocr-ingestion-auto-action`) rather than named clients or invented outcomes — this is deliberate since Summonware has no public-reference clients yet. Keep this pattern (capability-first, no fake specifics) until real, name-permissioned case studies exist.
 
 ---
 
-## Closing CTA (`data/cta.json`) — Act 5: Invitation
+## Stats — dropped, by design
 
-Placeholder person, headline ties back to the "summon" metaphor per NARRATIVE_FLOW.md Act 5 guidance ("Tell us what you need built" / "Start the conversation").
+No stats section exists (Projects Delivered, Years Active, etc.). As a new company, invented or zeroed-out numbers would undercut trust more than help it. Reintroduce only once real, honestly-claimable numbers exist — see `NARRATIVE_FLOW.md` section 6.
 
-**Replace with:** the actual named person who should be the face of inbound inquiries (founder, creative lead, biz dev — whoever fits), their real photo, and a real contact email/response-time expectation.
+---
+
+## Testimonial — omitted, by design
+
+No testimonial section is wired into the site (confirmed: no client quotes exist yet). Add one later via a new section once a real quote is available — don't fabricate one to fill the slot.
+
+---
+
+## Closing CTA / contact — `start` block in `i18n/{en,th}.json` + `#start-form` in `index.html`
+
+Plain contact form ("Work email" + message), no invented spokesperson or fabricated photo. This is the simple, honest version — keep it this way unless there's a real named point of contact to attach to it.
 
 ---
 
 ## How to update
 
-- Small text edits: edit the JSON files directly in `/data/`, or describe the change in chat and I'll do it.
-- Structural changes (adding a 6th service, more than 3 projects): safe to do — the components in DESIGN_SYSTEM.md section 7 are built to handle N items, not a fixed count.
-- Once all PLACEHOLDER strings are gone, update this file's status line to `FINAL` so future sessions know the content is launch-ready.
+- Copy edits: edit `site/src/i18n/en.json` and `th.json` directly (keep both in sync), or describe the change in chat.
+- New project/case study: see `docs/CONTENT_MAP.md` section 3 for the 3-file pattern (`projects.json` + both i18n files).

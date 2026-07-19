@@ -5,11 +5,14 @@
 import * as THREE from "three";
 import gsap from "gsap";
 import { ParticleField, chaosCloud, cardSilhouette } from "./particles";
+import { workHref } from "./routes";
+import { t } from "./i18n";
+import { fillStartIdea } from "./startForm";
 
 const ENTRANCE_COUNT = 1600;
 
 type Project = {
-  name: string; type: string; year: string; blurb: string; tags: string[]; hue: string;
+  name: string; type: string; year: string; blurb: string; tags: string[]; hue: string; slug: string;
   kind?: string; // selects a skeleton mockup illustration — see drawSkeleton()
 };
 
@@ -138,6 +141,64 @@ function drawSkeleton(x: CanvasRenderingContext2D, kind: string, W: number, H: n
         x.globalAlpha = 0.6; x.strokeStyle = ink; x.lineWidth = 2;
         x.beginPath(); x.arc(nx, ny, 10, 0, Math.PI * 2); x.stroke(); x.globalAlpha = 1;
       }
+      break;
+    }
+    case "sec-hardening": {
+      // gauge (hardening score) + checklist rows below it
+      const gx = ox + ow * 0.5, gy = oy + oh * 0.38, gr = oh * 0.26;
+      x.globalAlpha = 0.25; x.strokeStyle = ink; x.lineWidth = 10;
+      x.beginPath(); x.arc(gx, gy, gr, Math.PI * 0.78, Math.PI * 0.22, false); x.stroke();
+      x.globalAlpha = 0.85; x.strokeStyle = ink; x.lineWidth = 10;
+      x.beginPath(); x.arc(gx, gy, gr, Math.PI * 0.78, Math.PI * 1.42, false); x.stroke();
+      x.globalAlpha = 1;
+      for (let i = 0; i < 3; i++) {
+        const ry = oy + oh * 0.72 + i * 22;
+        x.globalAlpha = 0.5; x.strokeStyle = ink; x.lineWidth = 2;
+        x.beginPath();
+        x.moveTo(ox + ow * 0.18, ry); x.lineTo(ox + ow * 0.24, ry + 6); x.lineTo(ox + ow * 0.34, ry - 8);
+        x.stroke(); x.globalAlpha = 1;
+        rr(x, ox + ow * 0.4, ry - 5, ow * 0.46 - i * 30, 8, 3, ink, 0.22);
+      }
+      break;
+    }
+    case "sec-validation": {
+      // radar sweep: concentric rings + crosshair + sweep wedge
+      const rx = ox + ow * 0.5, ry = oy + oh * 0.44, rmax = Math.min(ow, oh) * 0.36;
+      x.strokeStyle = ink; x.globalAlpha = 0.3; x.lineWidth = 1.5;
+      [0.35, 0.65, 1].forEach((f) => { x.beginPath(); x.arc(rx, ry, rmax * f, 0, Math.PI * 2); x.stroke(); });
+      x.beginPath(); x.moveTo(rx - rmax, ry); x.lineTo(rx + rmax, ry); x.moveTo(rx, ry - rmax); x.lineTo(rx, ry + rmax); x.stroke();
+      x.globalAlpha = 1;
+      x.save();
+      x.beginPath(); x.moveTo(rx, ry); x.arc(rx, ry, rmax, -0.5, 0.1); x.closePath();
+      x.fillStyle = ink; x.globalAlpha = 0.28; x.fill();
+      x.restore(); x.globalAlpha = 1;
+      x.fillStyle = ink; x.globalAlpha = 0.7;
+      [[0.5, -0.3], [-0.35, 0.4], [0.15, 0.55]].forEach(([dx, dy]) => {
+        x.beginPath(); x.arc(rx + dx * rmax, ry + dy * rmax, 5, 0, Math.PI * 2); x.fill();
+      });
+      x.globalAlpha = 1;
+      break;
+    }
+    case "attack-sim": {
+      // kill-chain path: connected nodes, final node flagged
+      const nodes: [number, number][] = [
+        [ox + ow * 0.08, oy + oh * 0.72], [ox + ow * 0.32, oy + oh * 0.34],
+        [ox + ow * 0.58, oy + oh * 0.6], [ox + ow * 0.86, oy + oh * 0.18],
+      ];
+      x.strokeStyle = ink; x.globalAlpha = 0.5; x.lineWidth = 2; x.setLineDash([5, 5]);
+      x.beginPath();
+      nodes.forEach(([nx, ny], i) => (i === 0 ? x.moveTo(nx, ny) : x.lineTo(nx, ny)));
+      x.stroke(); x.setLineDash([]); x.globalAlpha = 1;
+      nodes.forEach(([nx, ny], i) => {
+        const last = i === nodes.length - 1;
+        x.globalAlpha = last ? 1 : 0.55; x.fillStyle = ink;
+        x.beginPath(); x.arc(nx, ny, last ? 10 : 6, 0, Math.PI * 2); x.fill();
+        if (last) {
+          x.strokeStyle = ink; x.globalAlpha = 0.6; x.lineWidth = 1.5;
+          x.beginPath(); x.arc(nx, ny, 18, 0, Math.PI * 2); x.stroke();
+        }
+      });
+      x.globalAlpha = 1;
       break;
     }
     default: {
@@ -343,7 +404,12 @@ export function initProjects3D(projects: Project[]) {
       <div class="project-meta tag-mono"><span>${p.type}</span><span>${p.year}</span></div>
       <h4>${p.name}</h4>
       <p>${p.blurb}</p>
-      <div class="project-tags">${p.tags.map((t) => `<span>${t}</span>`).join("")}</div>`;
+      <div class="project-tags">${p.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
+      <div class="project-detail-actions">
+        <a class="arrow-link project-view-link" href="${workHref(p.slug)}">${t("work.viewCase") as string} <span class="arrow-link-icon">&rarr;</span></a>
+        <button type="button" class="arrow-link project-start-link">${t("work.startLikeThis") as string} <span class="arrow-link-icon">&rarr;</span></button>
+      </div>`;
+    detail!.querySelector(".project-start-link")?.addEventListener("click", () => fillStartIdea(p.name));
     gsap.fromTo(detail, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
   }
 
@@ -380,6 +446,22 @@ export function initProjects3D(projects: Project[]) {
     const dy = e.clientY - startY;
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
       target += dx < 0 ? 1 : -1;
+      return;
+    }
+    // A drag-free release is a click/tap: clicking the already-centered
+    // card opens its case study; clicking any other card brings it to
+    // center first (matching how the swipe/drag interaction already works)
+    // rather than jumping straight to a page the user hasn't seen yet.
+    if (Math.abs(dx) < 6 && Math.abs(dy) < 6) {
+      const r = canvas.getBoundingClientRect();
+      const ndc = new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+      ray.setFromCamera(ndc, camera);
+      const hit = ray.intersectObjects(cards)[0];
+      if (hit) {
+        const i = (hit.object as THREE.Mesh).userData.index as number;
+        if (i === active) location.href = workHref(projects[i].slug);
+        else target = i;
+      }
     }
   };
   canvas.addEventListener("pointerup", endDrag);
@@ -394,7 +476,7 @@ export function initProjects3D(projects: Project[]) {
   const ray = new THREE.Raycaster();
   const clock = new THREE.Clock();
 
-  // Pause rendering while off-screen — see hero3d.ts for why this matters:
+  // Pause rendering while off-screen — see hero.ts/particles.ts for why this matters:
   // several concurrent WebGL scenes rendering unconditionally is enough
   // load to stall unrelated rAF-driven animation elsewhere on the page.
   // The entrance sequence also only fires once the canvas is visible.

@@ -5,7 +5,7 @@
   },
   "nav": {
     "services": "Services",
-    "howWeWork": "How we work",
+    "howWeWork": "Selected work",
     "trust": "Trust & compliance",
     "faq": "FAQ",
     "menu": "Menu",
@@ -19,20 +19,12 @@
     "tag": "AI–FORWARD SOFTWARE HOUSE",
     "headingHtml": "Software that ships itself into <em>existence</em>",
     "description": "Even one call is enough to start. Tell us the outcome you need — we summon the product: scoped, designed, and built with an AI-accelerated pipeline that never steals your quarter.",
-    "cta": "Book a free call",
-    "introHtml": "No dev team? <strong>Summonware</strong> gets your product built — even if all you have is an idea",
-    "introSub": "Scopes itself in days, looks right from the first screen, turns whatever you sketch into working software"
-  },
-  "promise": {
-    "words": ["hiring", "handoffs", "bloat"],
-    "lead": "Just bring the problem — we bring the team",
-    "sub": "Summonware shapes the scope, designs the experience, and turns your idea into a shipped product in weeks."
+    "cta": "Book a free call"
   },
   "services": {
     "marquee": ["AI systems", "Custom software", "Product design", "Launch support"],
     "tag": "services",
     "headingHtml": "Your business, <em>upgraded</em>",
-    "sub": "Summonware isn't a single service. It's a complete system built around how you actually operate.",
     "steps": [
       {
         "name": "ai-systems",
@@ -65,11 +57,161 @@
     "headingHtml": "Things we've <em>summoned</em>",
     "swipeHint": "swipe to explore"
   },
+  "work": {
+    "backToWork": "Back to selected work",
+    "viewCase": "View case study",
+    "startLikeThis": "Start something like this",
+    "allWork": "All work",
+    "prevProject": "Previous project",
+    "nextProject": "Next project",
+    "featuresTag": "capabilities",
+    "ctaTag": "start with summonware",
+    "ctaButton": "Request a proposal",
+    "items": {
+      "ecommerce-customer-data-platform": {
+        "name": "Ecommerce Customer Data Platform",
+        "type": "Data platform",
+        "blurb": "Unifies customer data across every storefront and channel into one profile — AI-scored, always current, ready for marketing and support to act on.",
+        "tags": ["AI systems", "Ecommerce", "Data"]
+      },
+      "ocr-ingestion-auto-action": {
+        "name": "OCR Ingestion & Auto-Action",
+        "type": "Document automation",
+        "blurb": "Scans incoming documents, extracts the data with OCR, and automatically triggers the right downstream action — no manual re-entry, no waiting.",
+        "tags": ["AI systems", "OCR", "Automation"]
+      },
+      "it-security-hardening": {
+        "name": "IT Security Hardening",
+        "type": "Infrastructure",
+        "blurb": "Audits, patches, and locks down your stack — least-privilege access, dependency hygiene, and monitoring that catches problems before they're incidents.",
+        "tags": ["Security", "Infrastructure"]
+      },
+      "microsoft-solutions": {
+        "name": "Microsoft Solutions",
+        "type": "Systems integration",
+        "blurb": "Builds and connects across the Microsoft ecosystem — Power Platform, 365, and Azure — so your existing tools finally work together.",
+        "tags": ["Microsoft", "Integrations"]
+      },
+      "iot-device-network": {
+        "name": "IoT Device Network",
+        "type": "Connected hardware",
+        "blurb": "Connects sensors and devices into one monitored network — real-time telemetry, alerts, and a dashboard that makes the fleet legible.",
+        "tags": ["IoT", "Edge", "Hardware"]
+      },
+      "security-configuration-hardening": {
+        "name": "Security Configuration Hardening",
+        "type": "Cyber hygiene",
+        "blurb": "Continuously checks every server, endpoint, and database against security baselines like CIS Benchmark — and fixes what's out of line automatically.",
+        "tags": ["Security", "Compliance", "Automation"]
+      },
+      "security-control-validation": {
+        "name": "Security Control Validation",
+        "type": "Security testing",
+        "blurb": "Simulates real attack techniques against your firewall, EDR, SIEM, and incident response process — so you know what actually catches an attack, not just what's installed.",
+        "tags": ["Security", "Validation", "SOC"]
+      },
+      "automated-attack-simulation": {
+        "name": "Automated Attack Simulation",
+        "type": "Adversary simulation",
+        "blurb": "AI-planned, continuous red-teaming that maps every real path an attacker could take — from phishing to lateral movement to data exfiltration — instead of a once-a-year pentest.",
+        "tags": ["Security", "Red team", "AI"]
+      }
+    },
+    "detail": {
+      "ecommerce-customer-data-platform": {
+        "intro": "Every storefront, app, and support channel was capturing its own slice of the customer — never the whole picture. We built a unified data platform that merges every touchpoint into one live profile per customer, scored and segmented by AI, so marketing and support teams finally work from the same truth.",
+        "features": [
+          { "title": "Unified profiles", "desc": "Every order, message, and click resolves to one customer record, not five disconnected ones across your stack." },
+          { "title": "AI scoring", "desc": "Each profile carries a live propensity and churn score, updated as new behavior comes in — not recalculated once a quarter." },
+          { "title": "Real-time sync", "desc": "Changes in any connected channel propagate everywhere else within seconds, so support never sees stale data." },
+          { "title": "Built-in activation", "desc": "Segments plug straight into your existing marketing and support tools — no separate export step." }
+        ],
+        "ctaHeadingHtml": "Want your customer data working <em>this hard</em>?",
+        "ctaBody": "We'll map your current data sprawl and show you what a unified platform actually looks like for your stack."
+      },
+      "ocr-ingestion-auto-action": {
+        "intro": "Incoming invoices, forms, and contracts were landing in an inbox and waiting for someone to type them into the system by hand. We built a pipeline that reads every document the moment it arrives, extracts the fields that matter, and fires the right downstream action automatically — approvals, entries, notifications — with no manual re-typing.",
+        "features": [
+          { "title": "Any-format ingestion", "desc": "PDFs, scans, and photos of paper all go through the same OCR pipeline — no separate handling per source." },
+          { "title": "Field-level extraction", "desc": "Pulls the specific data your workflow needs, not just raw text, mapped straight to your existing system's fields." },
+          { "title": "Confidence-based routing", "desc": "High-confidence documents auto-process; anything uncertain routes to a human for a quick check, never silently guessed." },
+          { "title": "Action, not just data", "desc": "Extraction triggers the real next step — an entry, an approval request, a notification — instead of leaving you a CSV to act on manually." }
+        ],
+        "ctaHeadingHtml": "Still re-typing what a document <em>already told you</em>?",
+        "ctaBody": "Send us a sample of what you process and we'll show you what automatic ingestion looks like for it."
+      },
+      "it-security-hardening": {
+        "intro": "Most breaches don't start with a zero-day — they start with a default password, an over-permissioned service account, or a dependency nobody patched. We audit your stack end to end and lock it down: access tightened to least-privilege, dependencies kept current, and monitoring in place that catches drift before it becomes an incident.",
+        "features": [
+          { "title": "Full-stack audit", "desc": "Servers, cloud accounts, and dependencies reviewed against real attack patterns, not a generic checklist." },
+          { "title": "Least-privilege access", "desc": "Every account and service gets exactly the access it needs to do its job — nothing left open \"just in case.\"" },
+          { "title": "Dependency hygiene", "desc": "Outdated and vulnerable packages get tracked and patched on a schedule, not discovered during an incident." },
+          { "title": "Drift monitoring", "desc": "Once hardened, we watch for configuration drift so today's fix doesn't quietly unwind in six months." }
+        ],
+        "ctaHeadingHtml": "Not sure what's <em>actually exposed</em>?",
+        "ctaBody": "A hardening audit tells you exactly where you stand — before someone else finds out first."
+      },
+      "microsoft-solutions": {
+        "intro": "Most teams already own the Microsoft stack — they just aren't using it as one system. We build and connect across Power Platform, 365, and Azure so the tools you're already paying for finally talk to each other, instead of living as five disconnected apps with the same data typed in five times.",
+        "features": [
+          { "title": "Power Platform apps", "desc": "Custom internal tools built on Power Apps and Power Automate — fast to ship, easy for your team to maintain." },
+          { "title": "365 integration", "desc": "Teams, SharePoint, and Outlook wired into your actual workflows, not left as a separate island from the rest of your systems." },
+          { "title": "Azure backend", "desc": "Custom services and data pipelines on Azure where Power Platform alone isn't enough." },
+          { "title": "One connected system", "desc": "Data flows between every connected tool automatically, so nobody's re-entering the same information twice." }
+        ],
+        "ctaHeadingHtml": "Paying for Microsoft tools that <em>don't talk to each other</em>?",
+        "ctaBody": "Tell us your current stack and we'll show you what's possible with what you already own."
+      },
+      "iot-device-network": {
+        "intro": "A fleet of sensors and devices scattered across sites is only useful if someone can actually see what they're reporting. We connect the hardware into one monitored network — real-time telemetry, alerting on the thresholds that matter, and a single dashboard that turns a hundred blinking devices into one legible picture.",
+        "features": [
+          { "title": "Fleet onboarding", "desc": "New sensors and devices join the network with a standard provisioning flow — no bespoke setup per site." },
+          { "title": "Real-time telemetry", "desc": "Live data from every connected device, not a batch upload that's already an hour stale by the time you see it." },
+          { "title": "Threshold alerting", "desc": "Get notified the moment a device drifts out of range — before it becomes a site visit." },
+          { "title": "One fleet dashboard", "desc": "Every device, every site, one screen — status at a glance instead of stitching together per-vendor apps." }
+        ],
+        "ctaHeadingHtml": "Fleet spread across <em>too many dashboards</em>?",
+        "ctaBody": "We'll show you what one unified view of your connected hardware actually looks like."
+      },
+      "security-configuration-hardening": {
+        "intro": "Security configuration drifts quietly — a service left open, a weak password policy, a logging gap nobody notices until it's an incident. We built a platform that continuously discovers every server, endpoint, network device, and database in your environment, checks each one against recognized baselines like CIS Benchmark, and scores the real risk — not just a pass or fail.",
+        "features": [
+          { "title": "Full asset discovery", "desc": "Finds every server, endpoint, and database in your environment — including the ones nobody remembered to document." },
+          { "title": "Baseline scoring", "desc": "Every system gets a hardening score against CIS Benchmark or your own internal policy, so risk is measured, not guessed." },
+          { "title": "Guided or automatic remediation", "desc": "Fixes are recommended with exact steps — or applied automatically where you've approved it, safely and reversibly." },
+          { "title": "Audit-ready reporting", "desc": "Generates the reports your compliance and audit process actually needs, without a manual evidence-gathering scramble." }
+        ],
+        "ctaHeadingHtml": "Know your real <em>hardening score</em>?",
+        "ctaBody": "Most teams find out what's misconfigured during an incident. We'll show you sooner."
+      },
+      "security-control-validation": {
+        "intro": "Buying a firewall, an EDR, and a SIEM doesn't tell you whether they actually stop anything — only testing them against real attack behavior does. We continuously validate your security controls against MITRE ATT&CK-mapped techniques: confirming each system is configured correctly, measuring how much it actually detects and blocks, and checking whether your SOC catches the multi-step attack, not just the individual alerts.",
+        "features": [
+          { "title": "Readiness checks", "desc": "Confirms your security tools are actually configured right — features enabled, signatures current, logs reaching your SIEM, clocks in sync." },
+          { "title": "Attack simulation", "desc": "Runs real attack techniques against firewall, IPS, WAF, EDR, and email security, and scores what actually got detected or blocked." },
+          { "title": "Detection validation", "desc": "Tests whether your SIEM and SOC correlate a multi-step attack into one real alert — and where alert fatigue and false positives are coming from." },
+          { "title": "Response timing", "desc": "Measures the full incident path from alert to resolution — MTTD, MTTR, and exactly where the process stalls." }
+        ],
+        "ctaHeadingHtml": "Confident your security stack <em>actually works</em>?",
+        "ctaBody": "We'll run it against real attack behavior and show you the gap between installed and effective."
+      },
+      "automated-attack-simulation": {
+        "intro": "An annual penetration test tells you what was true on the day someone tested it. We built a continuous, AI-planned red-teaming system that maps the real attack paths available in your environment right now — phishing and initial access, exploitation and privilege escalation, lateral movement, and how far data could actually travel before it left the building.",
+        "features": [
+          { "title": "AI-planned attack paths", "desc": "AI plans and adapts each simulated attack the way a real adversary would — not a fixed script run on a schedule." },
+          { "title": "Full kill-chain coverage", "desc": "Covers initial access through lateral movement to data exfiltration, so you see the whole path, not one isolated technique." },
+          { "title": "Continuous, not annual", "desc": "Runs on an ongoing basis, so a new path opened by last week's change gets caught this week, not at next year's pentest." },
+          { "title": "Prioritized findings", "desc": "Every finding ranks by how reachable and damaging it actually is, so remediation starts with what matters most." }
+        ],
+        "ctaHeadingHtml": "When was your last real attack path <em>actually mapped</em>?",
+        "ctaBody": "We'll show you what an attacker could reach in your environment today — not last year."
+      }
+    }
+  },
   "trust": {
     "tag": "trust & compliance",
     "headingHtml": "Ready for <em>regulated procurement</em>",
     "sub": "Built to pass security review, not just sprint review.",
-    "note": "PLACEHOLDER — confirm each claim below is accurate before publishing. These describe process commitments, not certifications we currently hold unless stated.",
     "cards": [
       {
         "title": "Data handled under PDPA",
@@ -78,38 +220,6 @@
       {
         "title": "In-country hosting available",
         "body": "Deploy on Thailand-based infrastructure when data residency is a requirement, not a preference."
-      },
-      {
-        "title": "Security-reviewed delivery",
-        "body": "Every line ships through senior review, static analysis, and dependency audits before it reaches your repo."
-      },
-      {
-        "title": "Formal engagement, your terms",
-        "body": "NDA, SOW, fixed-price or time-and-materials — we work inside your procurement process, not around it."
-      }
-    ]
-  },
-  "howWeWork": {
-    "tag": "how we work",
-    "headingHtml": "Built around <em>how you grow</em>",
-    "cards": [
-      {
-        "title": "Launching a startup",
-        "mode": "STUDIO MODE",
-        "lead": "Idea → Summonware → MVP in market. Done.",
-        "specs": ["Senior-only team — no juniors on your bill", "AI-native pipeline on every task"]
-      },
-      {
-        "title": "Scaling a business",
-        "mode": "EMBEDDED MODE",
-        "lead": "A senior team on tap while you grow revenue, not headcount.",
-        "specs": ["Our engineers inside your standups and repo", "< 24h response, one point of contact"]
-      },
-      {
-        "title": "Public sector & regulated enterprise",
-        "mode": "STUDIO OR EMBEDDED",
-        "lead": "We work inside your procurement and compliance process — not around it.",
-        "specs": ["Fixed-scope proposals for RFPs", "Security review and PDPA-aligned handling by default"]
       }
     ]
   },
@@ -136,20 +246,12 @@
         "a": "Anyone with a product to build — from startups to SMEs to regulated enterprises and public-sector teams. We adapt the engagement to your process, whether that's a quick MVP or a formal RFP."
       },
       {
-        "q": "How is this different from a regular agency?",
-        "a": "Most agencies just execute tickets. Summonware also scopes the product, designs the journey, wires in AI where it earns its keep, and stays for launch and growth. And it all comes from one senior team."
-      },
-      {
         "q": "How does the AI-accelerated pipeline work?",
         "a": "Every task runs through our internal tooling built on frontier models — code generation, review, test synthesis, and docs. Humans make the calls; the pipeline removes the grind. You get senior output at roughly twice the pace."
       },
       {
         "q": "What's the turnaround?",
         "a": "First working demo in about two weeks including scoping and design. The discovery-to-proposal step itself is around five business days."
-      },
-      {
-        "q": "Will the AI affect my code quality or compliance posture?",
-        "a": "Unreviewed AI code tends to be verbose and brittle — so ours never ships unreviewed. Every line passes senior review, tests, and static analysis before it reaches your repo, the same standard we'd expect for a regulated client."
       }
     ]
   },
@@ -159,7 +261,6 @@
     "cta": "Ask us anything",
     "terms": "terms",
     "privacy": "privacy policy",
-    "linkedin": "linkedin",
-    "stack": "stack — typescript · python · react · three.js · claude api"
+    "stack": "services — AI solutions · custom software · security · IoT hardware"
   }
 }

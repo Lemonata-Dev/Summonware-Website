@@ -1,10 +1,23 @@
 /* Summonware design tokens — single source of truth for visual values */
+/* Accent color options (from the khroma palette tool) — kept here so
+   switching is a one-line swap instead of re-deriving hex values:
+     Option 1 — orange (original):  accent #fc5d20 / deep #e63d00
+     Option 2 — Alizarin Crimson (ACTIVE): accent #e8232d / deep #b81820
+                (Cold Turkey #d1bdc4 was paired with it in the tool but is
+                too desaturated/low-contrast to serve as a functional token
+                on our light bg — not used; ask if you want it applied
+                somewhere specific, e.g. a tinted section background)
+     Option 3 — Bright Sun + Blumine: accent #f7d445 / deep #215772
+                (Blumine reads as a secondary/dark-navy tone, not a hover
+                shade of Bright Sun — if you pick this one, say which of
+                the two should be --color-accent vs --color-accent-deep)
+   To switch: tell me the option number, or paste new hex values directly. */
 :root {
   /* Color */
   --color-ink: #24282b;
   --color-ink-soft: #4a5055;
-  --color-accent: #fc5d20;
-  --color-accent-deep: #e63d00;
+  --color-accent: #e8232d;
+  --color-accent-deep: #b81820;
   --color-bg: #f2f3f4;
   --color-bg-2: #e8eaec;
   --color-dark: #1b1e20;
