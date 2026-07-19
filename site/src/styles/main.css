@@ -91,10 +91,23 @@ section { padding: var(--space-section) var(--space-gutter); position: relative;
    mirrored (its wrapper is scaleX(-1), not the text content) so it reads
    backwards and — because the whole coordinate space is flipped — the
    same right-to-left keyframe now animates left-to-right on screen. */
-.preloader-marquee {
+.preloader-marquee, .status-marquee {
   position: absolute; inset: 0; display: flex; flex-direction: column;
   justify-content: space-between; padding-block: 2vh; overflow: hidden; user-select: none; z-index: 1;
 }
+
+/* ===== 404 / Coming Soon — same light-sign marquee treatment as the
+   preloader (see above), just as a real in-flow page instead of a
+   fixed overlay. Both views share this one .status-page recipe. */
+.status-view { min-height: 100%; }
+.status-page {
+  position: relative; overflow: hidden; min-height: calc(var(--vvh) - 2 * var(--frame-pad));
+  display: flex; align-items: center; justify-content: center; text-align: center;
+}
+.status-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 32em; padding-inline: var(--space-gutter); }
+.status-sigil { width: 4.4rem; height: 4.4rem; color: var(--color-ink); animation: bob 1.4s ease-in-out infinite; }
+.status-code { color: var(--color-accent); }
+.status-body { opacity: 0.75; line-height: 1.55; max-width: 28em; }
 .preloader-marquee-mirror { transform: scaleX(-1); overflow: hidden; }
 .preloader-marquee-track {
   display: flex; width: max-content; white-space: nowrap;

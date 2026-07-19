@@ -305,6 +305,57 @@ c-178 0 -284 -20 -421 -79 -27 -12 -54 -21 -60 -21 -9 0 -11 67 -9 261 3 263
          8 products share exactly one template. ===== -->
     <main id="work-view" hidden></main>
 
+    <!-- ===== 404 — shown by main.ts for any path that isn't "/", a
+         known /work/:slug, or their /th/ equivalents. Reuses the
+         preloader's mirrored "SUMMONWARE" marquee and logo mark so an
+         error still feels on-brand instead of a bare browser 404. ===== -->
+    <main id="notfound-view" class="status-view" hidden>
+      <section class="status-page">
+        <div class="status-marquee" aria-hidden="true">
+          <div class="preloader-marquee-mirror">
+            <div class="preloader-marquee-track">
+              <span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span>
+            </div>
+          </div>
+          <div class="preloader-marquee-track">
+            <span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+        <div class="status-content">
+          <svg class="sigil status-sigil" viewBox="0 0 1082 1106" aria-hidden="true"><use href="#logo-mark"/></svg>
+          <p class="tag-mono status-code" data-i18n="notFound.code">404</p>
+          <h1 class="text-60" data-i18n-html="notFound.headingHtml">Lost the <em>summoning circle</em></h1>
+          <p class="status-body" data-i18n="notFound.body">This page doesn't exist — the link might be broken, or it moved.</p>
+          <a class="btn-swoosh" href="/" data-status-home-link><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text" data-i18n="notFound.cta">Back to home</span></a>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===== Coming Soon — hidden/unrouted by default. Flip
+         MAINTENANCE_MODE in src/config.ts and redeploy to show this for
+         every route instead of the real site while under maintenance. ===== -->
+    <main id="coming-soon-view" class="status-view" hidden>
+      <section class="status-page">
+        <div class="status-marquee" aria-hidden="true">
+          <div class="preloader-marquee-mirror">
+            <div class="preloader-marquee-track">
+              <span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span>
+            </div>
+          </div>
+          <div class="preloader-marquee-track">
+            <span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span><span>SUMMONWARE&nbsp;&nbsp;&middot;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+        <div class="status-content">
+          <svg class="sigil status-sigil" viewBox="0 0 1082 1106" aria-hidden="true"><use href="#logo-mark"/></svg>
+          <p class="tag-mono status-code" data-i18n="comingSoon.code">coming soon</p>
+          <h1 class="text-60" data-i18n-html="comingSoon.headingHtml">Something's being <em>summoned</em></h1>
+          <p class="status-body" data-i18n="comingSoon.body">We're building something new here. Check back soon, or reach out directly in the meantime.</p>
+          <a class="btn-swoosh" href="mailto:hello@summonware.com"><span class="btn-swoosh-bg"></span><span class="btn-swoosh-text" data-i18n="comingSoon.cta">Get in touch</span></a>
+        </div>
+      </section>
+    </main>
+
     <!-- ===== Footer ===== -->
     <footer class="footer section-dark">
       <p class="tag-mono" data-i18n="footer.tag">contact us</p>
