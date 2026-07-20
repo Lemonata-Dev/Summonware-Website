@@ -73,10 +73,17 @@ const FRAG = /* glsl */ `
     col = mix(col, accent, smoothstep(0.56, 0.82, t));
     col = mix(col, gold,   smoothstep(0.80, 1.08, t));
 
-    // a real presence in the upper-right, not a corner smudge — still
-    // fades out before the headline column on desktop widths
+    // A real presence in the upper-right, not a corner smudge. The center
+    // (uAspect * 0.86) already tracks aspect ratio, but the OLD fixed 1.05
+    // radius didn't — so on a wide desktop viewport (uAspect can be 2.5+)
+    // the same absolute radius covered a shrinking fraction of the width,
+    // leaving a growing void of blank space toward the right edge. Scaling
+    // the radius by aspect too keeps the glow's *reach* proportional to
+    // the actual width instead of a fixed uv distance; the max(1.0, …)
+    // floor keeps narrower/mobile viewports at the original radius.
+    float radius = 1.05 * max(1.0, uAspect / 1.7);
     float d = length(uv - vec2(uAspect * 0.86, 0.82));
-    float falloff = smoothstep(1.05, 0.05, d);
+    float falloff = smoothstep(radius, 0.05, d);
 
     gl_FragColor = vec4(col, falloff * 0.5);
   }
