@@ -73,19 +73,50 @@ const FRAG = /* glsl */ `
     col = mix(col, accent, smoothstep(0.56, 0.82, t));
     col = mix(col, gold,   smoothstep(0.80, 1.08, t));
 
-    // A real presence in the upper-right, not a corner smudge. The center
-    // (uAspect * 0.86) already tracks aspect ratio, but the OLD fixed 1.05
-    // radius didn't — so on a wide desktop viewport (uAspect can be 2.5+)
-    // the same absolute radius covered a shrinking fraction of the width,
-    // leaving a growing void of blank space toward the right edge. Scaling
-    // the radius by aspect too keeps the glow's *reach* proportional to
-    // the actual width instead of a fixed uv distance; the max(1.0, …)
-    // floor keeps narrower/mobile viewports at the original radius.
-    float radius = 1.05 * max(1.0, uAspect / 1.7);
-    float d = length(uv - vec2(uAspect * 0.86, 0.82));
+    // A real presence anchored at the true top-right corner of the screen,
+    // big enough to reach down past the headline/button band, not a small
+    // blob hugging the nav row.
+    //
+    // .hero-blob-canvas (main.css) is deliberately oversized — inset: -15%,
+    // width/height: 130% — so the blur filter's hard edge lands outside the
+    // visible .hero-blob-wrap instead of showing a seam. That means this
+    // shader's own vUv 0..1 space spans a box 30% BIGGER than what's ever
+    // actually on screen: only the inner slice [0.15/1.3, 1.15/1.3] of vUv
+    // is visible per axis. Defining the center in visible-fraction terms
+    // (0 = left/top edge of what's actually shown, 1 = right/bottom edge)
+    // and converting to raw uv keeps this correct regardless of aspect
+    // ratio or if the oversize percentage in the CSS ever changes.
+    //
+    // NOTE on the y-axis: PlaneGeometry's UV has v=0 at the BOTTOM and
+    // v=1 at the TOP (standard OpenGL convention) — confirmed empirically
+    // via direct pixel readback (canvas.toDataURL(), preserveDrawingBuffer
+    // true above) rather than assumed, since guessing this wrong once
+    // already produced a wrongly-shaped blob. So centerVis.y close to 1
+    // means "near the top", matching "top-right corner" here.
+    float visMin = 0.15 / 1.3;
+    float visMax = 1.15 / 1.3;
+    float visSpan = visMax - visMin;
+    vec2 centerVis = vec2(0.97, 0.94); // true top-right corner of the screen
+    vec2 center = (visMin + centerVis * visSpan) * vec2(uAspect, 1.0);
+
+    // A previous version sized this off the remaining distance to the
+    // visible edge — correct for "reach the edge" but capped at how big a
+    // smoothstep tail can usefully get before it just widens the same
+    // small blob. With the center now anchored at the actual corner, the
+    // ask is a fundamentally bigger presence (reaching down past the
+    // headline/button band, not just sideways to the edge) — so this is a
+    // large fixed radius scaled directly off aspect. 0.95 (tried first)
+    // measured alpha 22-35 even at the far-left headline column — visibly
+    // washing over the text's own background, not just extending rightward.
+    // 0.6 keeps the same corner-anchored shape but tuned so the headline
+    // column reads near-zero while the right side stays strong, verified
+    // via the same full grid (both columns, not just the right side).
+    float radius = uAspect * 0.6;
+
+    float d = length(uv - center);
     float falloff = smoothstep(radius, 0.05, d);
 
-    gl_FragColor = vec4(col, falloff * 0.5);
+    gl_FragColor = vec4(col, falloff * 0.62);
   }
 `;
 
@@ -95,7 +126,14 @@ export function initHeroBlob() {
   if (!canvas || !wrap) return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
+  // preserveDrawingBuffer: true — the default (false) lets the browser
+  // clear the drawing buffer at any point after a frame renders, which
+  // made this canvas impossible to verify externally (canvas.toDataURL()
+  // and gl.readPixels both silently returned all-zero pixels when called
+  // from outside the render loop itself, discovered while debugging the
+  // hero gradient's right-edge coverage). Negligible cost for a canvas
+  // this small — worth it so this class of bug is actually verifiable.
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, preserveDrawingBuffer: true });
   // Lower internal resolution than the display size — rendered smaller,
   // then scaled up and CSS-blurred (see .hero-blob-canvas). Too aggressive
   // a downscale (this was 0.28) kills the noise detail before the blur
@@ -115,8 +153,16 @@ export function initHeroBlob() {
   function resize() {
     const w = wrap!.clientWidth || 1, h = wrap!.clientHeight || 1;
     renderer.setSize(w * RENDER_SCALE, h * RENDER_SCALE, false);
-    canvas!.style.width = "100%";
-    canvas!.style.height = "100%";
+    // Do NOT set canvas.style.width/height here — .hero-blob-canvas (main.css)
+    // already declares the canvas's display size (130%, inset:-15%, the
+    // oversize that hides the blur filter's edge). An inline style always
+    // wins over an external stylesheet rule regardless of specificity, so
+    // a stray "100%" here was silently overriding that 130% down to 100%
+    // while the inset:-15% positioning still shifted the box left/up —
+    // leaving the canvas physically 15% short of the wrap's right and
+    // bottom edges (a real gap, not a fade). Root-caused via direct
+    // getBoundingClientRect() measurement after shader-only fixes kept
+    // failing to close a right-edge void that turned out to be structural.
     uniforms.uAspect.value = w / h;
   }
   resize();
