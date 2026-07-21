@@ -55,7 +55,8 @@
   "projects": {
     "tag": "selected work",
     "headingHtml": "Things we've <em>summoned</em>",
-    "swipeHint": "swipe to explore"
+    "swipeHint": "swipe to browse",
+    "tapHint": "tap the screen to open"
   },
   "work": {
     "backToWork": "Back to selected work",
