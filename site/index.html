@@ -250,8 +250,14 @@ c-178 0 -284 -20 -421 -79 -27 -12 -54 -21 -60 -21 -9 0 -11 67 -9 261 3 263
         <p class="tag-mono section-tag"><span class="tag-square"></span><span data-i18n="projects.tag">selected work</span></p>
         <h2 class="text-60" data-fx="scan-text" data-i18n-html="projects.headingHtml">Things we've <em>summoned</em></h2>
         <div class="carousel-wrap">
+          <button type="button" class="carousel-navstrip carousel-navstrip-prev tag-mono" id="carousel-nav-prev" aria-label="Previous product"></button>
           <canvas id="projects-canvas"></canvas>
-          <p class="drag-hint tag-mono"><span class="drag-arrow">←</span> <span data-i18n="projects.swipeHint">swipe to explore</span> <span class="drag-arrow">→</span></p>
+          <button type="button" class="carousel-navstrip carousel-navstrip-next tag-mono" id="carousel-nav-next" aria-label="Next product"></button>
+          <p class="drag-hint tag-mono" id="carousel-hint">
+            <span class="drag-arrow">←</span> <span data-i18n="projects.swipeHint">swipe to browse</span> <span class="drag-arrow">→</span>
+            <span class="drag-hint-sep">·</span>
+            <span data-i18n="projects.tapHint">tap the screen to open</span>
+          </p>
         </div>
         <div class="project-detail" id="project-detail"><!-- active project info --></div>
       </section>
